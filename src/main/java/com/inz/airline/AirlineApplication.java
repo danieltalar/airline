@@ -1,7 +1,9 @@
 package com.inz.airline;
 
 import com.inz.airline.domain.City;
+import com.inz.airline.domain.Flight;
 import com.inz.airline.repository.CityRepository;
+import com.inz.airline.repository.FlightRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,25 +21,9 @@ public class AirlineApplication {
     }
 
 
-//     (:City{name:"Mumbai", country:"India"}),
-//            (:City{name:"Chicago",
-//            country:"United States of America"}),
-//            (:City{name:"Las Vegas", country:"United States
-//        of America"}),(:City{name:"Los Angeles",
-//        country:"United States of America"}),
-//            (:City{name:"Toronto", country:"Canada"}),
-//            (:City{name:"London", country:"United Kingdom"}),
-//            (:City{name:"Madrid", country:"Spain"}),
-//            (:City{name:"Paris", country:"France"}),
-//            (:City{name:"Athens", country:"Greece"}),
-//            (:City{name:"Rome", country:"Italy"}),
-//            (:City{name:"Istanbul", country:"Turkey"}),
-//            (:City{name:"Singapore", country:"Singapore"}),
-//            (:City{name:"Sydney", country:"Australia"}),
-//            (:City{name:"Melbourne", country:"Australia"});
 
     @Bean
-    CommandLineRunner demo(CityRepository cityRepository) {
+    CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository) {
         return args -> {
         cityRepository.deleteAll();
         cityRepository.save(new City("London","England"));
@@ -51,7 +37,12 @@ public class AirlineApplication {
         cityRepository.save(new City("Madrid","Spain"));
         cityRepository.save(new City("Athens","Greece"));
         cityRepository.save(new City("Paris","France"));
+        cityRepository.save(new City("Los Angeles","United States of America"));
+        cityRepository.save(new City("New York","United States of America"));
+        cityRepository.save(new City("Chicago","United States of America"));
         cityRepository.findAll().forEach(w->System.out.println(w.getName()));
+        flightRepository.deleteAll();
+        flightRepository.save(new Flight( "AA9", "American Airlines", 314,114 ,"JFK", "LAX"));
 
         };
     }
