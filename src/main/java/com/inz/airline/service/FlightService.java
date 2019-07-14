@@ -6,6 +6,6 @@ import java.util.*;
 public interface FlightService {
 
     Flight addFlight(Flight flight);
-    void deleteFlight(Long id);
+    void deleteFlight(String code);
     List<Flight> getAllFlights();
 }

@@ -28,9 +28,9 @@ public class FlightController {
         return new ResponseEntity<>(flightService.addFlight(flight), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteFlight(@PathVariable("id") Long id){
-        flightService.deleteFlight(id);
+    @DeleteMapping("/{code}")
+    ResponseEntity<String> deleteFlight(@PathVariable("code") String code){
+        flightService.deleteFlight(code);
         return new ResponseEntity<>("DELETED", HttpStatus.CREATED);
     }
 
