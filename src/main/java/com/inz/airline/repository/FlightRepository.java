@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FlightRepository extends CrudRepository<Flight, String> {
+
+    Flight getByCode(String code);
 }
