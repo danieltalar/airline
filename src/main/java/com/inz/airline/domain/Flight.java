@@ -20,7 +20,7 @@ public class Flight {
     private String destination_airport_code;
     private String source_airport_code;
 
-    @Relationship(type = "FLYING_FROM")
+    @Relationship(type = "FLYING_FROM", direction = Relationship.INCOMING)
     private City cityFrom;
 
     @Relationship(type = "FLYING_TO")

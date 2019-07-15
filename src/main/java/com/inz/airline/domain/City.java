@@ -24,11 +24,7 @@ public class City {
     private String name;
     private String country;
 
-    @Relationship(type = "FLYING_FROM", direction = Relationship.INCOMING)
-    private List<FlyingFrom> flyingFroms;
 
-    @Relationship(type = "FLYING_TO", direction = Relationship.INCOMING)
-    private List<FlyingTo> flyingTos ;
 
     public City(String name, String country) {
         this.name = name;
