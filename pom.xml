@@ -48,8 +48,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -63,7 +61,7 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-http-driver</artifactId>
-            <version>3.1.6</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
@@ -73,12 +71,12 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-bolt-driver</artifactId>
-            <version>3.1.6</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-embedded-driver</artifactId>
-            <version>3.1.6</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -92,7 +90,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-
 
     </dependencies>
 
