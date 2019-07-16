@@ -7,6 +7,7 @@ import com.inz.airline.repository.FlightRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
@@ -45,6 +46,7 @@ public class AirlineApplication {
             flightRepository.deleteAll();
             flightRepository.save(new Flight( "AA9", "American Airlines", 314,114 ,"JFK", "LAX", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles")));
            flightRepository.save(new Flight( "AA10", "American Airlines", 219,114 ,"JFK", "LAX", cityRepository.getByName("Kacper"),cityRepository.getByName("Roma")));
+           flightRepository.save(new Flight( "AA11", "American Airlines", 510,114 ,"JFK", "LAX", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
     //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
    //     flyingToRepository.save(new FlyingTo(cityRepository.getByName("Athens"), flightRepository.findById("AA9").get()));
       //  flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("Paris"), flightRepository.findById("AA10").get()));
@@ -52,7 +54,10 @@ public class AirlineApplication {
 
 //        flyingFromRepository.findAll().forEach(w->System.out.println("Lot z " + w.getCity()));
        //     System.out.println("LOT o kodzie: " + flightRepository.getByCode("AA9").getCode() +" leci z  "+ flightRepository.getByCode("AA9").getCityFrom() + " do " +flightRepository.getByCode("AA9").getCityTo());
-            System.out.println( flightRepository.getByCode("AA10").toString());
+
+            Flight flight = flightRepository.findAllFlightsByy("Los Angeles", "Istanbul");
+            System.out.println("Ten flight to: " + flight.getCode());
+            //   System.out.println( flightRepository.getByCode("AA10").toString());
         };
     }
 
