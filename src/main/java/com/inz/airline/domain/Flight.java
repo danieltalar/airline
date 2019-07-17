@@ -17,8 +17,8 @@ public class Flight {
     private String carrier;
     private Integer duration;
     private Integer arrival;
-    private String destination_airport_code;
-    private String source_airport_code;
+    private Integer max_seats;
+    private Integer avaiable_seats;
 
     @Relationship(type = "FLYING_FROM", direction = Relationship.INCOMING)
     private City cityFrom;
@@ -26,13 +26,11 @@ public class Flight {
     @Relationship(type = "FLYING_TO")
     private City cityTo;
 
-    public Flight(String code, String carrier, Integer duration, Integer arrival, String destination_airport_code, String source_airport_code, City cityFrom, City cityTo) {
+    public Flight(String code, String carrier, Integer duration, Integer arrival, City cityFrom, City cityTo) {
         this.code = code;
         this.carrier = carrier;
         this.duration = duration;
         this.arrival = arrival;
-        this.destination_airport_code = destination_airport_code;
-        this.source_airport_code = source_airport_code;
         this.cityFrom = cityFrom;
         this.cityTo = cityTo;
         System.out.println(cityFrom);

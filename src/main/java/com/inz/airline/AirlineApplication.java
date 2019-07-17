@@ -52,10 +52,10 @@ public class AirlineApplication {
             cityRepository.save(new City("Chicago","United States of America"));
        //     cityRepository.findAll().forEach(w->System.out.println(w.getName()));
             flightRepository.deleteAll();
-            flightRepository.save(new Flight( "AA9", "American Airlines", 314,114 ,"JFK", "LAX", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles")));
-           flightRepository.save(new Flight( "AA10", "American Airlines", 219,114 ,"JFK", "LAX", cityRepository.getByName("Kacper"),cityRepository.getByName("Roma")));
-           flightRepository.save(new Flight( "AA11", "American Airlines", 510,114 ,"JFK", "LAX", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
-           flightRepository.save(new Flight( "AA12", "American Airlines", 510,114 ,"JFK", "LAX", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
+            flightRepository.save(new Flight( "AA9", "American Airlines", 314,114 , cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles")));
+           flightRepository.save(new Flight( "AA10", "American Airlines", 219,114 , cityRepository.getByName("Kacper"),cityRepository.getByName("Roma")));
+           flightRepository.save(new Flight( "AA11", "American Airlines", 510,114 ,cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
+           flightRepository.save(new Flight( "AA12", "American Airlines", 510,114 , cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
     //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
    //     flyingToRepository.save(new FlyingTo(cityRepository.getByName("Athens"), flightRepository.findById("AA9").get()));
       //  flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("Paris"), flightRepository.findById("AA10").get()));

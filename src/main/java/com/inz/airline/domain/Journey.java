@@ -20,13 +20,16 @@ public class Journey {
     @Id
     @GeneratedValue
     private Long id;
-    private LocalDate flight_date;
+    private LocalDate journey_date;
+    //aby bylo od razu wiadomo po pobraniu Journey od jakiego miasta do jakiego ktos wybral podroz
+    private String cityFrom;
+    private String cityTo;
 
     @Relationship(type = "BY_FLIGHT", direction = Relationship.OUTGOING)
     private List<Flight> flights;
 
-    public Journey(LocalDate flight_date, List<Flight> flights) {
-        this.flight_date = flight_date;
+    public Journey(LocalDate journey_date, List<Flight> flights) {
+        this.journey_date = journey_date;
         this.flights = flights;
     }
 }

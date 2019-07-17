@@ -19,16 +19,17 @@ public class Booking {
     @Id
     @GeneratedValue
     private Long id;
-    private LocalDate reservation_date;
+    private LocalDate booking_date;
 
+    //mozna zrobic rezerwacje na jedna podroz skladajaca sie z n lotow (n>=1)
     @Relationship(type = "HAS_JOURNEY", direction = Relationship.OUTGOING)
     private Journey journey;
 
     @Relationship(type = "HAS_PASSENGER", direction = Relationship.OUTGOING)
     private List<Passenger> passengers;
 
-    public Booking(LocalDate reservation_date, Journey journey, List<Passenger> passengers) {
-        this.reservation_date = reservation_date;
+    public Booking(LocalDate booking_date, Journey journey, List<Passenger> passengers) {
+        this.booking_date = booking_date;
         this.journey = journey;
         this.passengers = passengers;
     }
