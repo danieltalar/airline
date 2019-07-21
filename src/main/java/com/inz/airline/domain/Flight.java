@@ -21,6 +21,7 @@ public class Flight {
     private Integer duration;
     private Integer max_seats;
     private Integer avaiable_seats;
+    private Integer price;
     private LocalDateTime start;
     private LocalDateTime end;
 
@@ -30,7 +31,7 @@ public class Flight {
     @Relationship(type = "FLYING_TO")
     private City cityTo;
 
-    public Flight(String code, String carrier, City cityFrom, City cityTo, LocalDateTime start, LocalDateTime end, Integer max_seats ) {
+    public Flight(String code, String carrier, City cityFrom, City cityTo, LocalDateTime start, LocalDateTime end, Integer max_seats, Integer price ) {
         this.code = code;
         this.carrier = carrier;
         this.duration = Math.toIntExact(ChronoUnit.MINUTES.between(start, end));
@@ -40,6 +41,7 @@ public class Flight {
         this.end = end;
         this.max_seats = max_seats;
         this.avaiable_seats = max_seats;
+        this.price = price;
 
 
 
