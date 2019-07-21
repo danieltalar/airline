@@ -2,7 +2,6 @@ package com.inz.airline.controller;
 
 
 import com.inz.airline.domain.Flight;
-import com.inz.airline.domain.JourneyData;
 import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.service.FlightService;
 import com.inz.airline.service.JourneyService;
@@ -32,10 +31,7 @@ public class FlightController {
     ResponseEntity<List<Flight>> getFlights(@RequestBody SearchFlightDto searchFlightDto){
         return new ResponseEntity<>(flightService.filter(searchFlightDto), HttpStatus.ACCEPTED);
     }
-    @PostMapping("/journey")
-    ResponseEntity<List<JourneyData>> getJourney(@RequestBody SearchFlightDto searchFlightDto){
-        return new ResponseEntity<>(journeyService.getJourney(searchFlightDto.getCityFrom(), searchFlightDto.getCityTo()), HttpStatus.ACCEPTED);
-    }
+
 
     @PostMapping("")
     ResponseEntity<Flight> createFlight(@RequestBody Flight flight){
