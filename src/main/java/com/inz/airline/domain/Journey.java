@@ -24,6 +24,7 @@ public class Journey {
     //aby bylo od razu wiadomo po pobraniu Journey od jakiego miasta do jakiego ktos wybral podroz
     private String cityFrom;
     private String cityTo;
+    private String price;
 
     @Relationship(type = "BY_FLIGHT", direction = Relationship.OUTGOING)
     private List<Flight> flights;

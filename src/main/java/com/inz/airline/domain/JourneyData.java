@@ -14,4 +14,5 @@ import java.util.List;
 public class JourneyData {
     List<Flight> flights;
     List<City> cities;
+    Integer price;
 }
