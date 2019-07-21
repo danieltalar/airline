@@ -2,6 +2,8 @@ package com.inz.airline;
 
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
+import com.inz.airline.domain.Journey;
+import com.inz.airline.domain.JourneyData;
 import com.inz.airline.repository.CityRepository;
 import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
@@ -11,8 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.List;
+import java.util.Map;
 
 
 @SpringBootApplication
@@ -55,7 +60,12 @@ public class AirlineApplication {
            flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20));
            flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400));
            flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199));
-    //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
+
+            List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
+
+            listOfJourneys.forEach(l-> System.out.println(l.getFlights()));
+
+            //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
    //     flyingToRepository.save(new FlyingTo(cityRepository.getByName("Athens"), flightRepository.findById("AA9").get()));
       //  flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("Paris"), flightRepository.findById("AA10").get()));
      //   flyingToRepository.save(new FlyingTo(cityRepository.getByName("Madrid"), flightRepository.findById("AA10").get()));
