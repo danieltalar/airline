@@ -2,22 +2,17 @@ package com.inz.airline;
 
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
-import com.inz.airline.domain.Journey;
 import com.inz.airline.repository.CityRepository;
 import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import scala.Console;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.List;
 
 
 @SpringBootApplication
@@ -52,10 +47,14 @@ public class AirlineApplication {
             cityRepository.save(new City("Chicago","United States of America"));
        //     cityRepository.findAll().forEach(w->System.out.println(w.getName()));
             flightRepository.deleteAll();
-            flightRepository.save(new Flight( "AA9", "American Airlines", 314,114 , cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles")));
-           flightRepository.save(new Flight( "AA10", "American Airlines", 219,114 , cityRepository.getByName("Kacper"),cityRepository.getByName("Roma")));
-           flightRepository.save(new Flight( "AA11", "American Airlines", 510,114 ,cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
-           flightRepository.save(new Flight( "AA12", "American Airlines", 510,114 , cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul")));
+            LocalDateTime dateTime = LocalDateTime.of(2019, Month.MARCH, 1, 20, 1);
+            LocalDateTime dateTime2 = LocalDateTime.of(2019, Month.MARCH, 2, 2, 1);
+            LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
+            LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
+            flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500));
+           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20));
+           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400));
+           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199));
     //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
    //     flyingToRepository.save(new FlyingTo(cityRepository.getByName("Athens"), flightRepository.findById("AA9").get()));
       //  flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("Paris"), flightRepository.findById("AA10").get()));
@@ -69,6 +68,8 @@ public class AirlineApplication {
         journeyRepository.save(new Journey(LocalDate.of(2002, Month.MARCH, 1), listOfFlights));
         journeyRepository.findAll().forEach(w-> System.out.println(w));*/
             //   System.out.println( flightRepository.getByCode("AA10").toString());
+
+
         };
     }
 
