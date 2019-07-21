@@ -13,4 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class JourneyData {
     List<Flight> flights;
+    List<City> cities;
 }

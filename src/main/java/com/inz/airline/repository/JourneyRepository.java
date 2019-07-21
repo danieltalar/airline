@@ -17,7 +17,7 @@ public interface JourneyRepository extends Neo4jRepository<Journey, Long> {
             "(cityTo:City{name: {1} }) WITH FILTER(f in nodes(path) WHERE 'Flight' IN labels(f)) " +
             "as flights,FILTER(city in nodes(path) " +
             "WHERE 'City' IN labels(city)) as " +
-            " cities RETURN flights")
+            " cities RETURN flights, cities")
     List<JourneyData> findListOfJourneys(String cityFrom, String cityTo);
 
 }

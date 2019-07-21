@@ -63,7 +63,7 @@ public class AirlineApplication {
 
             List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
-            listOfJourneys.forEach(l-> System.out.println(l.getFlights()));
+            listOfJourneys.forEach(l-> System.out.println(l.getFlights() + " | " +  l.getCities()));
 
             //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
    //     flyingToRepository.save(new FlyingTo(cityRepository.getByName("Athens"), flightRepository.findById("AA9").get()));
