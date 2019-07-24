@@ -3,9 +3,11 @@ package com.inz.airline;
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
 import com.inz.airline.domain.JourneyData;
+import com.inz.airline.domain.Ticket;
 import com.inz.airline.repository.CityRepository;
 import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
+import com.inz.airline.repository.TicketRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +16,7 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,8 +32,10 @@ public class AirlineApplication {
 
 
     @Bean
-    CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository) {
+    CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
+                           TicketRepository ticketRepository) {
         return args -> {
+            ticketRepository.deleteAll();
             cityRepository.deleteAll();
             cityRepository.save(new City("London","England"));
             cityRepository.save(new City("Kacper","Poland"));
@@ -53,14 +58,33 @@ public class AirlineApplication {
             LocalDateTime dateTime2 = LocalDateTime.of(2019, Month.MARCH, 2, 2, 1);
             LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
             LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
-            flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500,600));
-           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20,700));
-           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400,900));
-           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199,1200));
+
+
+            List<Ticket> tickets = new ArrayList<>();
+
+            Ticket t1= new Ticket( "premium economy","AA9", true,5.0);
+            Ticket t2 = new Ticket( "economy","AA9", false,5.0);
+            Ticket t3 = new Ticket( "business class","AA9", true,5.0);
+            Ticket t4 = new Ticket( "first class","AA9", true,5.0);
+             tickets.add(t1);
+             tickets.add(t2);
+             tickets.add(t3);
+             tickets.add(t4);
+
+
+            flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500,100, tickets));
+
+
+
+           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20));
+           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400));
+           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199));
 
             List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
-            listOfJourneys.forEach(l-> System.out.println(l.getFlights() + " | " +  l.getCities()));
+            flightRepository.findAll().forEach(f->System.out.println(f.toString()));
+//            listOfJourneys.forEach(l-> System.out.println(l.getFlights() + " | " +  l.getCities()));
+
 
             //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));
    //     flyingToRepository.save(new FlyingTo(cityRepository.getByName("Athens"), flightRepository.findById("AA9").get()));

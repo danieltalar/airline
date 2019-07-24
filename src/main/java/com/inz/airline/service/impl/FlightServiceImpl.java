@@ -36,8 +36,6 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> filter(SearchFlightDto searchFlightDto) {
         List<Flight> result = StreamSupport.stream(flightRepository.findAll().spliterator(), false)
-                .filter(flight->flight.getPrice() > searchFlightDto.getPriceMin())
-                .filter(flight->flight.getPrice() < searchFlightDto.getPriceMax())
                 .filter(flight -> flight.getStart().isAfter(searchFlightDto.getDataStartSearch()))
                 .filter(flight -> flight.getStart().isBefore(searchFlightDto.getDataEndSearch()))
                 .collect(Collectors.toList());

@@ -25,7 +25,6 @@ public class JourneyServiceImpl implements JourneyService {
         List<JourneyData> listFiltered = new ArrayList<>();
         for (JourneyData journeyData: listOfJourneys){
              AtomicReference<Integer> pr= new AtomicReference<>(0);
-             journeyData.getFlights().forEach(flight -> pr.set(pr.get()+flight.getPrice()));
              journeyData.setPrice(pr.get());
 //            List<Flight> collect = journeyData.getFlights().stream()
 //                    .filter(j -> j.getPrice() > searchFlightDto.getPriceMin())
