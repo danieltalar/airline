@@ -10,6 +10,7 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NodeEntity
 @Data
@@ -35,6 +36,11 @@ public class Flight {
 
     @Relationship(type="CONTAINS")
     private List<Ticket> tickets;
+
+    public Double getPriceTicketByType(String flightClass){
+        List<Ticket> collect = tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass)).collect(Collectors.toList());
+        return collect.get(0).getPrice();
+    }
 
     public Flight(String code, String carrier, City cityFrom, City cityTo, LocalDateTime start, LocalDateTime end, Integer total_seat_number) {
         this.code = code;
