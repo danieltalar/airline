@@ -82,8 +82,8 @@ public class AirlineApplication {
 
             List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
-            flightRepository.findAll().forEach(f->System.out.println(f.toString()));
-//            listOfJourneys.forEach(l-> System.out.println(l.getFlights() + " | " +  l.getCities()));
+//            flightRepository.findAll().forEach(f->System.out.println(f.toString()));
+            listOfJourneys.forEach(l-> System.out.println(l.getFlight_codes()));
 
 
             //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));

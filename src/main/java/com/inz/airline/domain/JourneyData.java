@@ -12,7 +12,5 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class JourneyData {
-    List<Flight> flights;
-    List<City> cities;
-    Integer price;
+    List<String> flight_codes;
 }

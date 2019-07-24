@@ -1,5 +1,6 @@
 package com.inz.airline.controller;
 
+import com.inz.airline.domain.Journey;
 import com.inz.airline.domain.JourneyData;
 import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.service.JourneyService;
@@ -19,7 +20,7 @@ public class JourneyController {
     JourneyService journeyService;
 
     @PostMapping("/journey")
-    ResponseEntity<List<JourneyData>> getJourney(@RequestBody SearchFlightDto searchFlightDto){
+    ResponseEntity<List<Journey>> getJourney(@RequestBody SearchFlightDto searchFlightDto){
         return new ResponseEntity<>(journeyService.getJourney(searchFlightDto), HttpStatus.ACCEPTED);
     }
 }
