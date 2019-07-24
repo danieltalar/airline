@@ -1,8 +1,10 @@
 package com.inz.airline.service.impl;
 
+import com.inz.airline.domain.Flight;
 import com.inz.airline.domain.Journey;
 import com.inz.airline.domain.JourneyData;
 import com.inz.airline.dto.SearchFlightDto;
+import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
 import com.inz.airline.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,15 +19,35 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Autowired
     JourneyRepository journeyRepository;
+    @Autowired
+    FlightRepository flightRepository;
 
     //TODO - CONVERT TO FORM WHERE JOURNEY IS RETURNED
     @Override
     public List<Journey> getJourney(SearchFlightDto searchFlightDto) {
-        AtomicReference<Integer> price= new AtomicReference<>(0);
         List<JourneyData> listOfFlightCodes = journeyRepository.findListOfJourneys(searchFlightDto.getCityFrom(), searchFlightDto.getCityTo());
         List<Journey> listFiltered = new ArrayList<>();
-//        for (Journey journey: listOfJourneys){
-//             AtomicReference<Integer> pr= new AtomicReference<>(0);
+        for (JourneyData journeyData: listOfFlightCodes){
+            List<Flight> flights = new ArrayList<>();
+            journeyData.getFlight_codes().forEach(code -> flights.add(flightRepository.getByCode(code)));
+//            AtomicReference<Integer> price= new AtomicReference<>(0);
+//            flights.forEach(flight -> price+= flight.ge);
+            Journey journey = new Journey();
+
+            journey.setFlights(flights);
+            journey.setCityTo(searchFlightDto.getCityTo());
+            journey.setCityFrom(searchFlightDto.getCityFrom());
+            int sizeBefore = journey.getFlights().size();
+            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.getAvaiable_seats() >= searchFlightDto.getCountTickets()).collect(Collectors.toList());
+            int sizeAfter = collect.size();
+            if (sizeBefore==sizeAfter) {
+
+                listFiltered.add(journey);
+            }
+
+        }
+
+            // AtomicReference<Integer> pr= new AtomicReference<>(0);
 ////            List<Flight> collect = journeyData.getFlights().stream()
 ////                    .filter(j -> j.getPrice() > searchFlightDto.getPriceMin())
 ////                    .filter(j -> j.getPrice() < searchFlightDto.getPriceMax())

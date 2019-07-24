@@ -13,4 +13,8 @@ public class SearchFlightDto {
     private LocalDateTime dataEndSearch = LocalDateTime.MAX;
     private String cityTo;
     private String cityFrom;
+    private Integer countTickets;
+    private Integer countAdult;
+    private Integer countChildren;
+    private String ticketType;
 }
