@@ -38,12 +38,14 @@ public class JourneyServiceImpl implements JourneyService {
             journey.setCityTo(searchFlightDto.getCityTo());
             journey.setCityFrom(searchFlightDto.getCityFrom());
             int sizeBefore = journey.getFlights().size();
-            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.getAvaiable_seats() >= searchFlightDto.getCountTickets()).collect(Collectors.toList());
+            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.checkHasPlace(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren())).collect(Collectors.toList());
             int sizeAfter = collect.size();
             if (sizeBefore==sizeAfter) {
 
                 listFiltered.add(journey);
             }
+
+//            listFiltered.forEach( journey1 -> journey1.getFlights().forEach(flight -> flight.getTickets().));
 
         }
 
