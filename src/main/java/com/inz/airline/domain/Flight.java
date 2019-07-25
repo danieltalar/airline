@@ -46,7 +46,7 @@ public class Flight {
 
         List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
         List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        if (ticketsByFlightClassAdults.size()>=numberOfAdults && ticketsByFlightClassAdults.size()>=numberOfChildren) return true;
+        if (ticketsByFlightClassAdults.size()>=numberOfAdults && ticketsByFlightClassChildren.size()>=numberOfChildren) return true;
         else return false;
     }
 
