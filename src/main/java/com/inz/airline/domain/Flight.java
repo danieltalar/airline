@@ -37,17 +37,18 @@ public class Flight {
     @Relationship(type="CONTAINS")
     private List<Ticket> tickets;
 
-    public Double getPriceTicketByType(String flightClass){
-        List<Ticket> collect = tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass)).collect(Collectors.toList());
-        return collect.get(0).getPrice();
+    public Double getPrice(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
+        List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
+        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
+        return ticketsByFlightClassAdults.get(0).getPrice() * numberOfAdults + ticketsByFlightClassChildren.get(0).getPrice()* numberOfChildren;
     }
 
     public Boolean checkHasPlace(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
 
+        if (tickets.isEmpty()) return false;
         List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
         List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        if (ticketsByFlightClassAdults.size()>=numberOfAdults && ticketsByFlightClassChildren.size()>=numberOfChildren) return true;
-        else return false;
+        return ticketsByFlightClassAdults.size() >= numberOfAdults && ticketsByFlightClassChildren.size() >= numberOfChildren;
     }
 
     public Flight(String code, String carrier, City cityFrom, City cityTo, LocalDateTime start, LocalDateTime end, Integer total_seat_number) {

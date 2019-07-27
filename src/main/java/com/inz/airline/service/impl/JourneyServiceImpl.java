@@ -45,6 +45,10 @@ public class JourneyServiceImpl implements JourneyService {
                 listFiltered.add(journey);
             }
 
+            int suma = 0;
+            for (Journey journey1 : listFiltered) {
+                journey1.getPrice();
+            }
 //            listFiltered.forEach( journey1 -> journey1.getFlights().forEach(flight -> flight.getTickets().));
 
         }

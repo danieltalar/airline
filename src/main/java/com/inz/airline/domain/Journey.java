@@ -10,6 +10,7 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @NodeEntity
 @Data
@@ -24,10 +25,16 @@ public class Journey {
     //aby bylo od razu wiadomo po pobraniu Journey od jakiego miasta do jakiego ktos wybral podroz
     private String cityFrom;
     private String cityTo;
-    private String price;
+    private Double price;
 
     @Relationship(type = "BY_FLIGHT", direction = Relationship.OUTGOING)
     private List<Flight> flights;
+
+    void getPrice(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
+        AtomicReference<Double> price = new AtomicReference<Double>(new Double(0));
+        flights.forEach(flight -> price.updateAndGet(v -> v + flight.getPrice(flightClass, numberOfAdults, numberOfChildren)));
+        this.price = price.get();
+    }
 
     public Journey(LocalDate journey_date, List<Flight> flights) {
         this.journey_date = journey_date;
