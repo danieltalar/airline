@@ -4,10 +4,7 @@ import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
 import com.inz.airline.domain.JourneyData;
 import com.inz.airline.domain.Ticket;
-import com.inz.airline.repository.CityRepository;
-import com.inz.airline.repository.FlightRepository;
-import com.inz.airline.repository.JourneyRepository;
-import com.inz.airline.repository.TicketRepository;
+import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,8 +30,11 @@ public class AirlineApplication {
 
     @Bean
     CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
-                           TicketRepository ticketRepository) {
+                           TicketRepository ticketRepository, AuthorityRepository authorityRepository) {
         return args -> {
+//            authorityRepository.deleteAll();
+//            authorityRepository.save(new Authority("ROLE_USER"));
+//            authorityRepository.save(new Authority("ROLE_ADMIN"));
             ticketRepository.deleteAll();
             cityRepository.deleteAll();
             cityRepository.save(new City("London","England"));
