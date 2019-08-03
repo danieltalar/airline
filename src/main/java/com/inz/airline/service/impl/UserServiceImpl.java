@@ -64,6 +64,10 @@ public class UserServiceImpl implements UserService {
     user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
     user.setFirst_name(userRequest.getFirstname());
     user.setLast_name(userRequest.getLastname());
+    user.setNationallity(userRequest.getNationality());
+    user.setEmail(userRequest.getEmail());
+    user.setDateOfBirth(userRequest.getDateOfBirth());
+
     List<com.inz.airline.model.Authority> auth = authService.findByname("ROLE_USER");
     user.setAuthorities(auth);
     this.userRepository.save(user);

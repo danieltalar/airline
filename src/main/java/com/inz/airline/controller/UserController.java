@@ -74,6 +74,10 @@ public class UserController {
   @RequestMapping("/whoami")
   @PreAuthorize("hasRole('USER')")
   public User user() {
+
+
+    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
     return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
 
