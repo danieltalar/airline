@@ -2,7 +2,6 @@ package com.inz.airline;
 
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
-import com.inz.airline.domain.JourneyData;
 import com.inz.airline.domain.Ticket;
 import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
@@ -58,32 +57,54 @@ public class AirlineApplication {
             LocalDateTime dateTime2 = LocalDateTime.of(2019, Month.MARCH, 2, 2, 1);
             LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
             LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
-
-
             List<Ticket> tickets = new ArrayList<>();
+            List<Ticket> tickets2 = new ArrayList<>();
+            List<Ticket> tickets3 = new ArrayList<>();
+            List<Ticket> tickets4 = new ArrayList<>();
 
-            Ticket t1= new Ticket( "premium economy","AA9", true,5.0);
-            Ticket t2 = new Ticket( "economy","AA9", false,5.0);
-            Ticket t3 = new Ticket( "business class","AA9", true,5.0);
-            Ticket t4 = new Ticket( "first class","AA9", true,5.0);
-             tickets.add(t1);
-             tickets.add(t2);
-             tickets.add(t3);
-             tickets.add(t4);
+
+                Ticket t1= new Ticket( "premium economy","AA9", true,5.0);
+                Ticket t2 = new Ticket( "economy","AA9", false,5.0);
+                Ticket t5 = new Ticket( "economy","AA9", true,5.0);
+                Ticket t6 = new Ticket( "economy","AA9", true,5.0);
+                Ticket t3 = new Ticket( "business class","AA9", true,5.0);
+                Ticket t4 = new Ticket( "first class","AA9", true,5.0);
+                tickets.add(t1);
+                tickets.add(t2);
+                tickets.add(t3);
+                tickets.add(t4);
+                tickets.add(t5);
+                tickets.add(t6);
+                Ticket t11= new Ticket( "premium economy","AA11", true,5.0);
+                Ticket t22 = new Ticket( "economy","AA11", false,5.0);
+                Ticket t55 = new Ticket( "economy","AA11", true,5.0);
+                Ticket t66 = new Ticket( "economy","AA11", true,5.0);
+                Ticket t33 = new Ticket( "business class","AA11", true,5.0);
+                Ticket t44 = new Ticket( "first class","AA11", true,5.0);
+                tickets2.add(t11);
+                tickets2.add(t22);
+                tickets2.add(t33);
+                tickets2.add(t44);
+                tickets2.add(t55);
+                tickets2.add(t66);
+
+
+
+
 
 
             flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500,100, tickets));
 
 
 
-           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20));
-           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400));
-           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199));
+           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20,500,tickets));
+           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400, 300,tickets2));
+           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199,700,tickets));
 
-            List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
+         //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
 //            flightRepository.findAll().forEach(f->System.out.println(f.toString()));
-            listOfJourneys.forEach(l-> System.out.println(l.getFlight_codes()));
+  //          listOfJourneys.forEach(l-> System.out.println(l.getFlight_codes()));
 
 
             //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));

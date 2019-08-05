@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @NodeEntity
 @Data
 @NoArgsConstructor
-public class Flight {
+public class Flight implements Comparable<Flight> {
 
     @Id
     private String code;
@@ -75,5 +75,11 @@ public class Flight {
         this.avaiable_seats = total_seat_number;
         this.distance=distance;
         this.tickets=tickets;
+    }
+
+
+    @Override
+    public int compareTo(Flight o) {
+        return this.getStart().compareTo(o.getStart());
     }
 }
