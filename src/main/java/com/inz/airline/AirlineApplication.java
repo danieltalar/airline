@@ -3,6 +3,7 @@ package com.inz.airline;
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
 import com.inz.airline.domain.Ticket;
+import com.inz.airline.model.Authority;
 import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,9 +32,9 @@ public class AirlineApplication {
     CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
                            TicketRepository ticketRepository, AuthorityRepository authorityRepository) {
         return args -> {
-//            authorityRepository.deleteAll();
-//            authorityRepository.save(new Authority("ROLE_USER"));
-//            authorityRepository.save(new Authority("ROLE_ADMIN"));
+            authorityRepository.deleteAll();
+            authorityRepository.save(new Authority("ROLE_USER"));
+            authorityRepository.save(new Authority("ROLE_ADMIN"));
             ticketRepository.deleteAll();
             cityRepository.deleteAll();
             cityRepository.save(new City("London","England"));
