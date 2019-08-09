@@ -49,9 +49,11 @@ public class JourneyServiceImpl implements JourneyService {
                 journey.setJourney_finish(journey.getFlights().get(journey.getFlights().size()-1).getEnd());
                 listFiltered.add(journey);
             }
-
+            flights.forEach(flight -> {
+                if(flight.getStart().isBefore(searchFlightDto.getDataStartSearch()))
+                    listFiltered.remove(journey);
+            });
         }
-
         return listFiltered;
 
     }

@@ -27,7 +27,6 @@ public class AirlineApplication {
     }
 
 
-
     @Bean
     CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
                            TicketRepository ticketRepository, AuthorityRepository authorityRepository) {
@@ -89,20 +88,12 @@ public class AirlineApplication {
                 tickets2.add(t55);
                 tickets2.add(t66);
 
-
-
-
-
-
             flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500,100, tickets));
-
-
-
            flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20,500,tickets));
            flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400, 300,tickets2));
            flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199,700,tickets));
 
-         //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
+            //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
 //            flightRepository.findAll().forEach(f->System.out.println(f.toString()));
   //          listOfJourneys.forEach(l-> System.out.println(l.getFlight_codes()));
