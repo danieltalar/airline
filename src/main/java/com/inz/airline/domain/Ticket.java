@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +17,7 @@ public class Ticket {
     private Long id;
     private String flight_class;
     private String flight_code;
-    private Double price;
+    private Double price = Double.valueOf(0);
     private Boolean isAdult;
 
     public Ticket(String flight_class, String flight_code,  Boolean isAdult, Double price) {

@@ -2,6 +2,7 @@ package com.inz.airline;
 
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
+import com.inz.airline.domain.Journey;
 import com.inz.airline.domain.Ticket;
 import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
@@ -93,6 +94,11 @@ public class AirlineApplication {
            flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400, 300,tickets2));
            flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199,700,tickets));
 
+           List<Flight> flights = (List<Flight>) flightRepository.findAll();
+
+            Journey journey = new Journey();
+            journey.setFlights(flights);
+            journeyRepository.save(journey);
             //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
 //            flightRepository.findAll().forEach(f->System.out.println(f.toString()));

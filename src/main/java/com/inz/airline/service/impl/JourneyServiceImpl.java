@@ -43,7 +43,7 @@ public class JourneyServiceImpl implements JourneyService {
 
             int sizeAfter = collect.size();
             if (sizeBefore==sizeAfter) {
-                journey.setPrice(journey.Price(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren()));
+//                journey.setPriceJourney(journey.Price(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren()));
                 Collections.sort(journey.getFlights());
                 journey.setJourney_start(journey.getFlights().get(0).getStart());
                 journey.setJourney_finish(journey.getFlights().get(journey.getFlights().size()-1).getEnd());
@@ -56,5 +56,10 @@ public class JourneyServiceImpl implements JourneyService {
         }
         return listFiltered;
 
+    }
+
+    @Override
+    public Journey addJourney(Journey journey) {
+        return journeyRepository.save(journey);
     }
 }

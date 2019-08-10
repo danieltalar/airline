@@ -9,6 +9,7 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,20 +38,20 @@ public class Flight implements Comparable<Flight> {
     @Relationship(type="CONTAINS")
     private List<Ticket> tickets;
 
-    public Double getPrice(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
-        List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& !ticket.getIsAdult()).collect(Collectors.toList());
-        double sumAdults = 0;
-        double sumChildren = 0;
-
-        if (!ticketsByFlightClassAdults.isEmpty()){
-            sumAdults = ticketsByFlightClassAdults.get(0).getPrice() * numberOfAdults;
-        }
-        if (!ticketsByFlightClassChildren.isEmpty()){
-            sumChildren = ticketsByFlightClassChildren.get(0).getPrice() * numberOfChildren;
-        }
-        return sumAdults + sumChildren;
-    }
+//    public Double getPriceJourney(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
+//        List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
+//        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& !ticket.getIsAdult()).collect(Collectors.toList());
+//        double sumAdults = 0;
+//        double sumChildren = 0;
+//
+//        if (!ticketsByFlightClassAdults.isEmpty()){
+//            sumAdults = ticketsByFlightClassAdults.get(0).getPriceJourney() * numberOfAdults;
+//        }
+//        if (!ticketsByFlightClassChildren.isEmpty()){
+//            sumChildren = ticketsByFlightClassChildren.get(0).getPriceJourney() * numberOfChildren;
+//        }
+//        return sumAdults + sumChildren;
+//    }
 
     public Boolean checkHasPlace(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
 
@@ -84,6 +85,23 @@ public class Flight implements Comparable<Flight> {
         this.avaiable_seats = total_seat_number;
         this.distance=distance;
         this.tickets=tickets;
+    }
+
+
+    public void deleteTickets(String ticketType, Integer countAdults, Integer countChildren){
+        List<Ticket> collect = tickets.stream().filter(ticket -> ticket.getFlight_class().equals(ticketType)).collect(Collectors.toList());
+        List<Ticket> ticketAdults = collect.stream().filter(ticket -> ticket.getIsAdult().equals(true)).collect(Collectors.toList());
+        List<Ticket> ticketChildren= collect.stream().filter(ticket -> ticket.getIsAdult().equals(false)).collect(Collectors.toList());
+        for (int i=0;i<countAdults;i++){
+            ticketAdults.remove(0);
+        }
+        for (int i=0;i<countChildren;i++){
+            ticketChildren.remove(0);
+        }
+        List<Ticket> tickets = new ArrayList<>();
+        tickets.addAll(ticketAdults);
+        tickets.addAll(ticketChildren);
+        setTickets(tickets);
     }
 
 
