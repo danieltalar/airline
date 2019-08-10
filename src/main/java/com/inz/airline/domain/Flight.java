@@ -39,8 +39,17 @@ public class Flight implements Comparable<Flight> {
 
     public Double getPrice(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
         List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        return ticketsByFlightClassAdults.get(0).getPrice() * numberOfAdults + ticketsByFlightClassChildren.get(0).getPrice()* numberOfChildren;
+        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& !ticket.getIsAdult()).collect(Collectors.toList());
+        double sumAdults = 0;
+        double sumChildren = 0;
+
+        if (!ticketsByFlightClassAdults.isEmpty()){
+            sumAdults = ticketsByFlightClassAdults.get(0).getPrice() * numberOfAdults;
+        }
+        if (!ticketsByFlightClassChildren.isEmpty()){
+            sumChildren = ticketsByFlightClassChildren.get(0).getPrice() * numberOfChildren;
+        }
+        return sumAdults + sumChildren;
     }
 
     public Boolean checkHasPlace(String flightClass, Integer numberOfAdults, Integer numberOfChildren){

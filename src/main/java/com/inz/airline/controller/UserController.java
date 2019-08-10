@@ -9,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -72,7 +71,7 @@ public class UserController {
    * sure that the user has role "ROLE_USER" to access this endpoint.
    */
   @RequestMapping("/whoami")
-  @PreAuthorize("hasRole('USER')")
+//  @PreAuthorize("hasRole('USER')")
   public User user() {
 
 

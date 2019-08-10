@@ -43,7 +43,7 @@ public class JourneyServiceImpl implements JourneyService {
 
             int sizeAfter = collect.size();
             if (sizeBefore==sizeAfter) {
-                journey.setPrice(journey.getPrice());
+                journey.setPrice(journey.Price(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren()));
                 Collections.sort(journey.getFlights());
                 journey.setJourney_start(journey.getFlights().get(0).getStart());
                 journey.setJourney_finish(journey.getFlights().get(journey.getFlights().size()-1).getEnd());

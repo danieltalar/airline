@@ -32,10 +32,11 @@ public class Journey {
     @Relationship(type = "BY_FLIGHT", direction = Relationship.OUTGOING)
     private List<Flight> flights;
 
-    void getPrice(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
+    public Double Price(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
         AtomicReference<Double> price = new AtomicReference<Double>(new Double(0));
         flights.forEach(flight -> price.updateAndGet(v -> v + flight.getPrice(flightClass, numberOfAdults, numberOfChildren)));
-        this.price = price.get();
+        System.out.println("obecna cena + " + price.get());
+        return price.get();
     }
 
     public Journey(LocalDate journey_date, List<Flight> flights) {
