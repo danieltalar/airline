@@ -1,5 +1,6 @@
 package com.inz.airline.controller;
 
+import com.inz.airline.domain.Booking;
 import com.inz.airline.domain.Journey;
 import com.inz.airline.dto.BookingDto;
 import com.inz.airline.dto.SearchFlightDto;
@@ -30,10 +31,12 @@ public class JourneyController {
         return new ResponseEntity<>(journeyService.getJourney(searchFlightDto), HttpStatus.ACCEPTED);
     }
     @PostMapping("/booking")
-    ResponseEntity<String> bookFlights(@RequestBody BookingDto bookingDto){
-        System.out.println(bookingDto.getTicketType());
-        bookingService.addBooking(bookingDto);
-        return new ResponseEntity<>("BOOKED", HttpStatus.CREATED);
+    ResponseEntity<Booking> bookFlights(@RequestBody BookingDto bookingDto){
+        System.out.println(bookingDto);
+        System.out.println("DODANE");
+
+        return new ResponseEntity<>(bookingService.addBooking(bookingDto)
+, HttpStatus.ACCEPTED);
     }
     @PostMapping("/addJourney")
     ResponseEntity<Journey> bookFlights(@RequestBody Journey journey){

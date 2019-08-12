@@ -16,26 +16,26 @@ public class Ticket {
     @GeneratedValue
     private Long id;
     private String flight_class;
-    private String flight_code;
-    private Double price = Double.valueOf(0);
+    private String code;
+    private Double price;
     private Boolean isAdult;
 
-    public Ticket(String flight_class, String flight_code,  Boolean isAdult, Double price) {
+    public Ticket(String flight_class, String code, Boolean isAdult, Double price) {
         this.flight_class = flight_class;
-        this.flight_code = flight_code;
+        this.code = code;
         this.isAdult = isAdult;
-        this.price = setPrice(price);
+        this.price = price;
     }
 
-    private double setPrice(Double price) {
-        switch (flight_class) {
-            case "economy": this.price = price;break;
-            case "premium economy": this.price = price * 1.15;break;
-            case "business class": this.price = price * 1.30;break;
-            case "first class": this.price = price * 1.45;break;
-            default: this.price = price;break;
-        }
-        if (!isAdult) this.price *= 0.75;
-        return this.price;
-    }
+//    private double setPrice(Double price) {
+//        switch (flight_class) {
+//            case "economy": this.price = price;break;
+//            case "premium economy": this.price = price * 1.15;break;
+//            case "business class": this.price = price * 1.30;break;
+//            case "first class": this.price = price * 1.45;break;
+//            default: this.price = price;break;
+//        }
+//        if (!isAdult) this.price *= 0.75;
+//        return this.price;
+//    }
 }

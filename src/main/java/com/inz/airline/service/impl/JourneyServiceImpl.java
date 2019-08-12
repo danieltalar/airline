@@ -6,6 +6,7 @@ import com.inz.airline.domain.JourneyData;
 import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
+import com.inz.airline.repository.TicketRepository;
 import com.inz.airline.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class JourneyServiceImpl implements JourneyService {
     JourneyRepository journeyRepository;
     @Autowired
     FlightRepository flightRepository;
+    @Autowired
+    TicketRepository ticketRepository;
 
     //TODO - CONVERT TO FORM WHERE JOURNEY IS RETURNED
     @Override
