@@ -2,6 +2,7 @@ package com.inz.airline.controller;
 
 import com.inz.airline.domain.Booking;
 import com.inz.airline.domain.Journey;
+import com.inz.airline.domain.User;
 import com.inz.airline.dto.BookingDto;
 import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.service.BookingService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,15 +30,18 @@ public class JourneyController {
 
     @PostMapping("/journey")
     ResponseEntity<List<Journey>> getJourney(@RequestBody SearchFlightDto searchFlightDto){
+        System.out.println("data sercha "+searchFlightDto.getDataStartSearch());
         return new ResponseEntity<>(journeyService.getJourney(searchFlightDto), HttpStatus.ACCEPTED);
     }
     @PostMapping("/booking")
     ResponseEntity<Booking> bookFlights(@RequestBody BookingDto bookingDto){
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("PRINCIPAL");
+        System.out.println(principal);
         System.out.println(bookingDto);
         System.out.println("DODANE");
 
-        return new ResponseEntity<>(bookingService.addBooking(bookingDto)
-, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(bookingService.addBooking(bookingDto), HttpStatus.ACCEPTED);
     }
     @PostMapping("/addJourney")
     ResponseEntity<Journey> bookFlights(@RequestBody Journey journey){

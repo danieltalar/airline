@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +27,6 @@ public class JourneyServiceImpl implements JourneyService {
     @Autowired
     TicketRepository ticketRepository;
 
-    //TODO - CONVERT TO FORM WHERE JOURNEY IS RETURNED
     @Override
     public List<Journey> getJourney(SearchFlightDto searchFlightDto) {
 
@@ -35,27 +35,26 @@ public class JourneyServiceImpl implements JourneyService {
         for (JourneyData journeyData: listOfFlightCodes){
             List<Flight> flights = new ArrayList<>();
             journeyData.getFlight_codes().forEach(code -> flights.add(flightRepository.getByCode(code)));
-
             Journey journey = new Journey();
-
-            journey.setFlights(flights);
-            journey.setCityTo(searchFlightDto.getCityTo());
-            journey.setCityFrom(searchFlightDto.getCityFrom());
             int sizeBefore = journey.getFlights().size();
-            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.checkHasPlace(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren())).collect(Collectors.toList());
-
+            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.checkHasPlace(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())).collect(Collectors.toList());
             int sizeAfter = collect.size();
             if (sizeBefore==sizeAfter) {
-//                journey.setPriceJourney(journey.Price(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren()));
+                journey.setFlights(flights);
+                journey.setCityTo(searchFlightDto.getCityTo());
+                journey.setCityFrom(searchFlightDto.getCityFrom());
                 Collections.sort(journey.getFlights());
                 journey.setJourney_start(journey.getFlights().get(0).getStart());
                 journey.setJourney_finish(journey.getFlights().get(journey.getFlights().size()-1).getEnd());
+                AtomicReference<Double> price = new AtomicReference<>((double) 0);
+                 journey.getFlights().forEach(flight -> price.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())))));
+                 journey.setPriceJourney(price.get());
                 listFiltered.add(journey);
+//                if(journey.getJourney_start().isBefore(searchFlightDto.getDataStartSearch())){
+//                    listFiltered.remove(journey);
+//                }
             }
-            flights.forEach(flight -> {
-                if(flight.getStart().isBefore(searchFlightDto.getDataStartSearch()))
-                    listFiltered.remove(journey);
-            });
+
         }
         return listFiltered;
 

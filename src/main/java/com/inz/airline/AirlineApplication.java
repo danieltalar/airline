@@ -1,8 +1,6 @@
 package com.inz.airline;
 
 import com.inz.airline.domain.Flight;
-import com.inz.airline.domain.Journey;
-import com.inz.airline.domain.Ticket;
 import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,8 +10,6 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @SpringBootApplication
@@ -59,59 +55,14 @@ public class AirlineApplication {
             LocalDateTime dateTime2 = LocalDateTime.of(2019, Month.MARCH, 2, 2, 1);
             LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
             LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
-            List<Ticket> tickets = new ArrayList<>();
-            List<Ticket> tickets2 = new ArrayList<>();
-            List<Ticket> tickets3 = new ArrayList<>();
-            List<Ticket> tickets4 = new ArrayList<>();
+
+            flightRepository.save(Flight.builder().code("AA9").carrier("American Airlines").cityFrom(cityRepository.getByName("New York")).cityTo(cityRepository.getByName("Los Angeles")).start(dateTime).end(dateTime2).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+           flightRepository.save( Flight.builder().code("AA10").carrier("American Airlines").cityFrom(cityRepository.getByName("Madrid")).cityTo(cityRepository.getByName("Roma")).start(dateTime2).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+           flightRepository.save(Flight.builder().code("AA11").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime3).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(200)).build());
+           flightRepository.save(Flight.builder().code("AA12").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime2).end(dateTime3).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
 
 
-                Ticket t1= new Ticket( "premium economy","AA9", true,5.0);
-                Ticket t2 = new Ticket( "economy","AA9", false,5.0);
-                Ticket t5 = new Ticket( "economy","AA9", true,5.0);
-                Ticket t6 = new Ticket( "economy","AA9", true,5.0);
-                Ticket t3 = new Ticket( "business class","AA9", true,5.0);
-                Ticket t4 = new Ticket( "first class","AA9", true,5.0);
-                tickets.add(t1);
-                tickets.add(t2);
-                tickets.add(t3);
-                tickets.add(t4);
-                tickets.add(t5);
-                tickets.add(t6);
-                Ticket t11= new Ticket( "premium economy","AA11", true,5.0);
-                Ticket t22 = new Ticket( "economy","AA11", false,5.0);
-                Ticket t55 = new Ticket( "economy","AA11", true,5.0);
-                Ticket t66 = new Ticket( "economy","AA11", true,5.0);
-                Ticket t33 = new Ticket( "business class","AA11", true,5.0);
-                Ticket t44 = new Ticket( "first class","AA11", true,5.0);
-                tickets2.add(t11);
-                tickets2.add(t22);
-                tickets2.add(t33);
-                tickets2.add(t44);
-                tickets2.add(t55);
-                tickets2.add(t66);
-                Ticket t111= new Ticket( "premium economy","AA12", true,5.0);
-                Ticket t222 = new Ticket( "economy","AA12", false,5.0);
-                Ticket t555 = new Ticket( "economy","AA12", true,5.0);
-                Ticket t666 = new Ticket( "economy","AA12", true,5.0);
-                Ticket t333 = new Ticket( "business class","AA12", true,5.0);
-                Ticket t444 = new Ticket( "first class","AA12", true,5.0);
-                tickets3.add(t111);
-                tickets3.add(t222);
-                tickets3.add(t333);
-                tickets3.add(t444);
-                tickets3.add(t555);
-                tickets3.add(t666);
 
-            flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500,100, tickets));
-           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20,500,tickets));
-           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400, 300,tickets2));
-           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199,700,tickets));
-
-           List<Flight> flights = (List<Flight>) flightRepository.findAll();
-
-            Journey journey = new Journey();
-            journey.setFlights(flights);
-            journeyRepository.save(journey);
             //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
 //            flightRepository.findAll().forEach(f->System.out.println(f.toString()));

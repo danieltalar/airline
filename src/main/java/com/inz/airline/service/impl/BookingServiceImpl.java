@@ -34,22 +34,52 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking addBooking(BookingDto bookingDto) {
             Booking booking = new Booking();
-//            booking.setPassengers(booking.getPassengers());
+            int account = bookingDto.getAccountAdults() + bookingDto.getAccountChildren();
+            String ticketType =  bookingDto.getTicketType();
+            List<Flight> flights = bookingDto.getJourney().getFlights();
+            switch (ticketType)
+            {
+                case "economy":
+                    flights.forEach(flight -> flight.setAvaiableSeatsEconomy(flight.getAvaiableSeatsEconomy() - account));
+                    break;
 
+                case "premium economy":
+                    flights.forEach(flight -> flight.setAvaiableSeatsPremiumEconomy(flight.getAvaiableSeatsPremiumEconomy() - account));
+                    break;
+
+                case "business class":
+                    flights.forEach(flight -> flight.setAvaiableSeatsBussinesClass(flight.getAvaiableSeatsBussinesClass() - account));
+                    break;
+
+                case "first class":
+                    flights.forEach(flight -> flight.setAvaiableSeatsFirstClass(flight.getAvaiableSeatsFirstClass() - account));
+                    break;
+
+                default:
+            }
+            flightRepository.saveAll(flights);
             booking.setJourney(bookingDto.getJourney());
+            List<Ticket> tickets = new ArrayList<>();
+            for (int i = 0; i < bookingDto.getAccountAdults(); i++) {
+                for (Flight flight: bookingDto.getJourney().getFlights()) {
+
+                    Ticket ticket = new Ticket(bookingDto.getTicketType(), flight.getCode(), true, flight.getBasePrice());
+                    tickets.add(ticket);
+                }
+            }
+            for (int i = 0; i < bookingDto.getAccountChildren(); i++) {
+                for (Flight flight: bookingDto.getJourney().getFlights()) {
+                    Ticket ticket = new Ticket(bookingDto.getTicketType(), flight.getCode(), false, flight.getBasePrice());
+                    tickets.add(ticket);
+                }
+            }
 
 
-//            bookingDto.getJourney().getFlights().forEach(flight -> flight.deleteTickets(bookingDto.getTicketType(), bookingDto.getAccountAdults(), bookingDto.getAccountChildren()));
-//            bookingDto.getJourney().getFlights().forEach(flight -> flightRepository.save(flight));
-        List<Flight> flights = booking.getJourney().getFlights();
-        Long id = ticketRepository.getByCode(flights.get(0).getCode()).get(0).getId();
-        ticketRepository.deleteById(id);
-        List<List<Ticket>> list = new ArrayList<>();
-        bookingDto.getJourney().getFlights().forEach(flight -> System.out.println(ticketRepository.getByCode(flight.getCode()).size()));
-            bookingDto.getJourney().getFlights().forEach(flight -> ticketRepository.getByCode(flight.getCode()));
-        System.out.println("sIZY po : ");
-        bookingDto.getJourney().getFlights().forEach(flight -> System.out.println(ticketRepository.getByCode(flight.getCode()).size()));
+
+
+
+            booking.setTickets(tickets);
+            booking.setPassengers(bookingDto.getPassengerList());
         return bookingRepository.save(booking);
-
     }
 }
