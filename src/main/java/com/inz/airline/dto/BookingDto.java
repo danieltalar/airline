@@ -14,5 +14,6 @@ public class BookingDto {
     Integer accountAdults;
     Integer accountChildren;
     String ticketType;
+    String owner;
     Journey journey;
 }

@@ -1,8 +1,14 @@
 package com.inz.airline.controller;
 
+import com.inz.airline.domain.Booking;
 import com.inz.airline.domain.User;
 import com.inz.airline.domain.UserRequest;
+import com.inz.airline.dto.BookingDto;
 import com.inz.airline.exception.ResourceConflictException;
+import com.inz.airline.repository.BookingRepository;
+import com.inz.airline.repository.JourneyRepository;
+import com.inz.airline.service.BookingService;
+import com.inz.airline.service.JourneyService;
 import com.inz.airline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +34,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @CrossOrigin
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
+
+  @Autowired
+  JourneyService journeyService;
+  @Autowired
+  JourneyRepository journeyRepository;
+  @Autowired
+  BookingRepository bookingRepository;
+  @Autowired
+  BookingService bookingService;
 
   @Autowired
   private UserService userService;
@@ -74,10 +89,17 @@ public class UserController {
 //  @PreAuthorize("hasRole('USER')")
   public User user() {
 
-
     User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
+  @PostMapping("/booking")
+  ResponseEntity<Booking> bookFlights(@RequestBody BookingDto bookingDto){
+    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    System.out.println(principal);
+    bookingDto.setOwner(principal.getUsername());
+
+    return new ResponseEntity<>(bookingService.addBooking(bookingDto), HttpStatus.ACCEPTED);
   }
 
 }

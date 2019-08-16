@@ -1,13 +1,8 @@
 package com.inz.airline.service.impl;
 
-import com.inz.airline.domain.Booking;
-import com.inz.airline.domain.Flight;
-import com.inz.airline.domain.Ticket;
+import com.inz.airline.domain.*;
 import com.inz.airline.dto.BookingDto;
-import com.inz.airline.repository.BookingRepository;
-import com.inz.airline.repository.FlightRepository;
-import com.inz.airline.repository.JourneyRepository;
-import com.inz.airline.repository.TicketRepository;
+import com.inz.airline.repository.*;
 import com.inz.airline.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +22,8 @@ public class BookingServiceImpl implements BookingService {
     FlightRepository flightRepository;
     @Autowired
     TicketRepository ticketRepository;
+    @Autowired
+    PassengerRepository passengerRepository;
 
 
 
@@ -58,8 +55,13 @@ public class BookingServiceImpl implements BookingService {
                 default:
             }
             flightRepository.saveAll(flights);
-            booking.setJourney(bookingDto.getJourney());
-            List<Ticket> tickets = new ArrayList<>();
+
+
+        Journey journey = bookingDto.getJourney();
+        journey.setFlights(flights);
+        journeyRepository.save(journey);
+        booking.setJourney(journey);
+        List<Ticket> tickets = new ArrayList<>();
             for (int i = 0; i < bookingDto.getAccountAdults(); i++) {
                 for (Flight flight: bookingDto.getJourney().getFlights()) {
 
@@ -76,10 +78,32 @@ public class BookingServiceImpl implements BookingService {
 
 
 
-
-
+            booking.setOwner(bookingDto.getOwner());
             booking.setTickets(tickets);
             booking.setPassengers(bookingDto.getPassengerList());
         return bookingRepository.save(booking);
+    }
+
+    @Override
+    public void cancelBooking(Long id) {
+        Booking booking = bookingRepository.findById(id).get();
+        System.out.println(booking);
+        Journey journey = booking.getJourney();
+        Journey journey1 = journeyRepository.findById(journey.getId()).get();
+        String flightClass = booking.getTickets().get(0).getFlight_class();
+        for (int i = 0; i < journey1.getFlights().size() ; i++) {
+            Flight byCode = flightRepository.getByCode(booking.getJourney().getFlights().get(i).getCode());
+            byCode.deleteTickets(flightClass, booking.getPassengers().size());
+            flightRepository.save(byCode);
+        }
+        journeyRepository.delete(journey1);
+        for (Passenger passenger : booking.getPassengers()){
+            passengerRepository.delete(passenger);
+        }
+        
+            bookingRepository.delete(booking);
+
+
+
     }
 }

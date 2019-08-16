@@ -6,4 +6,5 @@ import com.inz.airline.dto.BookingDto;
 public interface BookingService {
 
     Booking addBooking(BookingDto bookingDto);
+    void cancelBooking(Long id);
 }

@@ -1,6 +1,7 @@
 package com.inz.airline.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +29,9 @@ public class Flight implements Comparable<Flight> {
     private Integer avaiableSeatsFirstClass;
     private Integer avaiableSeatsBussinesClass;
 //    private Integer distance;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime start;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime end;
     private Double basePrice;
 
@@ -38,24 +41,6 @@ public class Flight implements Comparable<Flight> {
 
     @Relationship(type = "FLYING_TO")
     private City cityTo;
-//
-//    @Relationship(type="CONTAINS")
-//    private List<Ticket> tickets;
-
-//    public Double getPriceJourney(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
-//        List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-//        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& !ticket.getIsAdult()).collect(Collectors.toList());
-//        double sumAdults = 0;
-//        double sumChildren = 0;
-//
-//        if (!ticketsByFlightClassAdults.isEmpty()){
-//            sumAdults = ticketsByFlightClassAdults.get(0).getPrice() * numberOfAdults;
-//        }
-//        if (!ticketsByFlightClassChildren.isEmpty()){
-//            sumChildren = ticketsByFlightClassChildren.get(0).getPrice() * numberOfChildren;
-//        }
-//        return sumAdults + sumChildren;
-//    }
 
     public double takePrice(String flightClass, Integer accountChildren, Integer accountAdults){
         double mnoznik=1;
@@ -105,6 +90,18 @@ public class Flight implements Comparable<Flight> {
             default:
             }
             return  response;
+        }
+
+        public void deleteTickets(String flightClass, Integer account){
+
+            switch (flightClass) {
+                case "economy": this.avaiableSeatsEconomy +=account;break;
+                case "premium economy":this.avaiableSeatsPremiumEconomy +=account;break;
+                case "business class": this.avaiableSeatsBussinesClass +=account;break;
+                case "first class": this.avaiableSeatsFirstClass +=account;break;
+                default: break;
+            }
+
         }
 
 
