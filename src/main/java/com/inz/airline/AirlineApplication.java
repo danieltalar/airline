@@ -24,15 +24,16 @@ public class AirlineApplication {
 
     @Bean
     CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
-                           TicketRepository ticketRepository, AuthorityRepository authorityRepository, UserRepository userRepository, BookingRepository bookingRepository) {
+                           TicketRepository ticketRepository, AuthorityRepository authorityRepository, UserRepository userRepository, BookingRepository bookingRepository, PassengerRepository passengerRepository) {
         return args -> {
 //            authorityRepository.deleteAll();
 //            authorityRepository.save(new Authority("ROLE_USER"));
 //            authorityRepository.save(new Authority("ROLE_ADMIN"));
 //            userRepository.deleteAll();
             bookingRepository.deleteAll();
-            journeyRepository.deleteAll();
-            ticketRepository.deleteAll();
+            passengerRepository.deleteAll();
+       //     journeyRepository.deleteAll();
+       //     ticketRepository.deleteAll();
 //            cityRepository.deleteAll();
 //            cityRepository.save(new City("London","England"));
 //            cityRepository.save(new City("Kacper","Poland"));
@@ -61,7 +62,7 @@ public class AirlineApplication {
            flightRepository.save(Flight.builder().code("AA11").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime3).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(200)).build());
            flightRepository.save(Flight.builder().code("AA12").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime2).end(dateTime3).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
 
-
+            ticketRepository.deleteAll();
 
             //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 

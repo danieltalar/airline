@@ -52,7 +52,7 @@ public class JourneyServiceImpl implements JourneyService {
                  journey.getFlights().forEach(flight -> price.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())))));
                  journey.setPriceJourney(price.get());
                 listFiltered.add(journey);
-                if(journey.getJourney_start().isBefore(searchFlightDto.getDataStartSearch())){
+                if(journey.getJourney_start().isAfter(searchFlightDto.getDataStartSearch())){
                     listFiltered.remove(journey);
                 }
             }
