@@ -93,13 +93,6 @@ public class UserController {
 
     return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
-  @PostMapping("/booking")
-  ResponseEntity<Booking> bookFlights(@RequestBody BookingDto bookingDto){
-    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    System.out.println(principal);
-    bookingDto.setOwner(principal.getUsername());
 
-    return new ResponseEntity<>(bookingService.addBooking(bookingDto), HttpStatus.ACCEPTED);
-  }
 
 }

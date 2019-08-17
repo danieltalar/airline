@@ -7,6 +7,7 @@ import com.inz.airline.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     BookingRepository bookingRepository;
-
     @Autowired
     JourneyRepository journeyRepository;
     @Autowired
@@ -75,9 +75,7 @@ public class BookingServiceImpl implements BookingService {
                     tickets.add(ticket);
                 }
             }
-
-
-
+            booking.setBooking_date(LocalDate.now());
             booking.setOwner(bookingDto.getOwner());
             booking.setTickets(tickets);
             booking.setPassengers(bookingDto.getPassengerList());
@@ -87,9 +85,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void cancelBooking(Long id) {
         Booking booking = bookingRepository.findById(id).get();
-        System.out.println(booking);
-        Journey journey = booking.getJourney();
-        Journey journey1 = journeyRepository.findById(journey.getId()).get();
+        Long journeyid = booking.getJourney().getId();
+        Journey journey1 = journeyRepository.findById(journeyid).get();
         String flightClass = booking.getTickets().get(0).getFlight_class();
         for (int i = 0; i < journey1.getFlights().size() ; i++) {
             Flight byCode = flightRepository.getByCode(booking.getJourney().getFlights().get(i).getCode());
@@ -101,9 +98,12 @@ public class BookingServiceImpl implements BookingService {
             passengerRepository.delete(passenger);
         }
         
-            bookingRepository.delete(booking);
+        bookingRepository.delete(booking);
 
+    }
 
-
+    @Override
+    public List<Booking> getMyReservations(String owner) {
+        return bookingRepository.getByOwner(owner);
     }
 }
