@@ -2,7 +2,6 @@ package com.inz.airline.controller;
 
 
 import com.inz.airline.domain.Flight;
-import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.service.FlightService;
 import com.inz.airline.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +26,10 @@ public class FlightController {
     ResponseEntity<List<Flight>> getFlights(){
         return new ResponseEntity<>(flightService.getAllFlights(), HttpStatus.ACCEPTED);
     }
-    @PostMapping("/criteria")
-    ResponseEntity<List<Flight>> getFlights(@RequestBody SearchFlightDto searchFlightDto){
-        return new ResponseEntity<>(flightService.filter(searchFlightDto), HttpStatus.ACCEPTED);
-    }
+//    @PostMapping("/criteria")
+//    ResponseEntity<List<Flight>> getFlights(@RequestBody SearchFlightDto searchFlightDto){
+//        return new ResponseEntity<>(flightService.filter(searchFlightDto), HttpStatus.ACCEPTED);
+//    }
 
 
     @PostMapping("")

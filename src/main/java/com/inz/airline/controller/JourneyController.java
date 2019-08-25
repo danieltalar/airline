@@ -69,11 +69,12 @@ public class JourneyController {
     }
 
     @PostMapping("/cancelBooking")
-    ResponseEntity<String> bookFlights(@RequestBody Long id){
+    ResponseEntity<List<Booking>> bookFlights(@RequestBody Long id){
 
         bookingService.cancelBooking(id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return new ResponseEntity<>("DELETED", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(bookingService.getMyReservations(principal.getUsername()), HttpStatus.ACCEPTED);
     }
     @PostMapping("/addJourney")
     ResponseEntity<Journey> bookFlights(@RequestBody Journey journey){

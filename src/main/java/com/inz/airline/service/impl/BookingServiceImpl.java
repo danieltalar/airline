@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -60,6 +61,7 @@ public class BookingServiceImpl implements BookingService {
         Journey journey = bookingDto.getJourney();
         journey.setFlights(flights);
         journeyRepository.save(journey);
+        journey.setInterchangeAccount(flights.size() - 1);
         booking.setJourney(journey);
         List<Ticket> tickets = new ArrayList<>();
             for (int i = 0; i < bookingDto.getAccountAdults(); i++) {
@@ -104,6 +106,23 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getMyReservations(String owner) {
-        return bookingRepository.getByOwner(owner);
+        List<Booking> byOwner = bookingRepository.getByOwner(owner);
+        System.out.println("ROZMIARY: " + byOwner.size());
+        for (Booking booking : byOwner) {
+
+            Long id = booking.getJourney().getId();
+            Optional<Journey> byId = journeyRepository.findById(id);
+            List <Flight> flights = new ArrayList<>();
+            for (Flight flight: byId.get().getFlights()) {
+                Flight byCode = flightRepository.getByCode(flight.getCode());
+                flights.add(byCode);
+            }
+            byId.get().setFlights(flights);
+            booking.setJourney(byId.get());
+
+
+        }
+
+        return byOwner;
     }
 }

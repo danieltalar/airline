@@ -28,6 +28,7 @@ public class Journey {
     private String cityFrom;
     private String cityTo;
     private Double priceJourney;
+    private Integer interchangeAccount;
 
     @Relationship(type = "BY_FLIGHT", direction = Relationship.OUTGOING)
     private List<Flight> flights;
