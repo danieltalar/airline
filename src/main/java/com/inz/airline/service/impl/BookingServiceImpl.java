@@ -107,7 +107,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getMyReservations(String owner) {
         List<Booking> byOwner = bookingRepository.getByOwner(owner);
-        System.out.println("ROZMIARY: " + byOwner.size());
         for (Booking booking : byOwner) {
 
             Long id = booking.getJourney().getId();

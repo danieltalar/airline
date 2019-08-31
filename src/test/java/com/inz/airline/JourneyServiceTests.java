@@ -8,7 +8,6 @@ import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.repository.CityRepository;
 import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
-import com.inz.airline.repository.TicketRepository;
 import com.inz.airline.service.JourneyService;
 import com.inz.airline.service.impl.JourneyServiceImpl;
 import org.junit.Before;
@@ -51,9 +50,6 @@ public class JourneyServiceTests {
     private CityRepository cityRepository;
     @MockBean
     private FlightRepository flightRepository;
-    @MockBean
-    private TicketRepository ticketRepository;
-
 
     @Before
     public void setUp() {

@@ -6,7 +6,6 @@ import com.inz.airline.domain.JourneyData;
 import com.inz.airline.dto.SearchFlightDto;
 import com.inz.airline.repository.FlightRepository;
 import com.inz.airline.repository.JourneyRepository;
-import com.inz.airline.repository.TicketRepository;
 import com.inz.airline.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,12 @@ public class JourneyServiceImpl implements JourneyService {
     JourneyRepository journeyRepository;
     @Autowired
     FlightRepository flightRepository;
-    @Autowired
-    TicketRepository ticketRepository;
+
 
     @Override
     public List<Journey> getJourney(SearchFlightDto searchFlightDto) {
 
-        List<JourneyData> listOfFlightCodes = journeyRepository.findListOfJourneys(searchFlightDto.getCityFrom(), searchFlightDto.getCityTo());
+        List<JourneyData> listOfFlightCodes = journeyRepository.findListOfJourneys(searchFlightDto.getCityFrom(), searchFlightDto.getCityTo());;
         List<Journey> listFiltered = new ArrayList<>();
         for (JourneyData journeyData: listOfFlightCodes){
             List<Flight> flights = new ArrayList<>();
@@ -41,6 +39,7 @@ public class JourneyServiceImpl implements JourneyService {
             journey.setCityTo(searchFlightDto.getCityTo());
             journey.setCityFrom(searchFlightDto.getCityFrom());
             int sizeBefore = journey.getFlights().size();
+            System.out.println(searchFlightDto);
             List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.checkHasPlace(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())).collect(Collectors.toList());
 
             int sizeAfter = collect.size();
@@ -52,7 +51,7 @@ public class JourneyServiceImpl implements JourneyService {
                  journey.getFlights().forEach(flight -> price.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())))));
                  journey.setPriceJourney(price.get());
                 listFiltered.add(journey);
-                if(journey.getJourney_start().isAfter(searchFlightDto.getDataStartSearch())){
+                if(journey.getJourney_start().isBefore(searchFlightDto.getDataStartSearch())){
                     listFiltered.remove(journey);
                 }
             }
