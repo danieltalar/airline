@@ -23,12 +23,10 @@ public class Flight implements Comparable<Flight> {
     @Id
     private String code;
     private String carrier;
-   // private Integer duration;
     private Integer avaiableSeatsEconomy;
     private Integer avaiableSeatsPremiumEconomy;
     private Integer avaiableSeatsFirstClass;
     private Integer avaiableSeatsBussinesClass;
-//    private Integer distance;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime start;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -67,7 +65,6 @@ public class Flight implements Comparable<Flight> {
 
     public Boolean checkHasPlace(String flightClass, Integer accountChildren, Integer accountAdults){
         int account = accountChildren + accountAdults;
-        System.out.println(flightClass + " " + account );
         Boolean response = false;
         switch (flightClass){
             case "economy":

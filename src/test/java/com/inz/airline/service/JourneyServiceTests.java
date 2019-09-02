@@ -1,4 +1,4 @@
-package com.inz.airline;
+package com.inz.airline.service;
 
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;

@@ -1,8 +1,7 @@
-package com.inz.airline;
+package com.inz.airline.repository;
 
 import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
-import com.inz.airline.repository.FlightRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,8 @@
 package com.inz.airline.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -18,8 +16,6 @@ import java.util.List;
 @NodeEntity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class User  implements UserDetails {
 
     @Id
@@ -38,7 +34,6 @@ public class User  implements UserDetails {
     @JsonIgnore
     private String password;
 
-//    @Relationship(type = "HAS", direction = Relationship.OUTGOING)
     private List<com.inz.airline.model.Authority> authorities;
 
 
