@@ -40,7 +40,7 @@ public class FlightController {
     @DeleteMapping("/{code}")
     ResponseEntity<String> deleteFlight(@PathVariable("code") String code){
         flightService.deleteFlight(code);
-        return new ResponseEntity<>("DELETED", HttpStatus.CREATED);
+        return new ResponseEntity<>("DELETED", HttpStatus.ACCEPTED);
     }
 
 
