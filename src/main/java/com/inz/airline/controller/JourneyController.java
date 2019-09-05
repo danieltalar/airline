@@ -33,9 +33,8 @@ public class JourneyController {
 
     @PostMapping("/journey")
     ResponseEntity<List<Journey>> getJourney(@RequestBody SearchFlightDto searchFlightDto){
-        System.out.println("DATA Z FRONT");
-        System.out.println(searchFlightDto.getDataStartSearch());
-        return new ResponseEntity<>(journeyService.getJourney(searchFlightDto), HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(journeyService.getJourney(searchFlightDto), HttpStatus.OK);
     }
 
 
