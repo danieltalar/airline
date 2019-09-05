@@ -1,6 +1,9 @@
 package com.inz.airline.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.Id;
@@ -8,24 +11,27 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @NodeEntity
 @Data
 @NoArgsConstructor
-public class Flight {
+@AllArgsConstructor
+@Builder
+public class Flight implements Comparable<Flight> {
 
     @Id
     private String code;
     private String carrier;
-    private Integer duration;
-    private Integer total_seat_number;
-    private Integer avaiable_seats;
-    private Integer distance;
+    private Integer avaiableSeatsEconomy;
+    private Integer avaiableSeatsPremiumEconomy;
+    private Integer avaiableSeatsFirstClass;
+    private Integer avaiableSeatsBussinesClass;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime start;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime end;
+    private Double basePrice;
 
 
     @Relationship(type = "FLYING_FROM", direction = Relationship.INCOMING)
@@ -34,46 +40,73 @@ public class Flight {
     @Relationship(type = "FLYING_TO")
     private City cityTo;
 
-    @Relationship(type="CONTAINS")
-    private List<Ticket> tickets;
+    public double takePrice(String flightClass, Integer accountChildren, Integer accountAdults){
+        double mnoznik=1;
 
-    public Double getPrice(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
-        List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        return ticketsByFlightClassAdults.get(0).getPrice() * numberOfAdults + ticketsByFlightClassChildren.get(0).getPrice()* numberOfChildren;
+        switch (flightClass) {
+            case "economy": mnoznik = 1;break;
+            case "premium economy":mnoznik = 1.15;break;
+            case "business class": mnoznik = 1.30;break;
+            case "first class": mnoznik =  1.45;break;
+            default: break;
+        }
+        double price =0;
+        for (int i = 0; i <accountAdults ; i++) {
+               price+= mnoznik * basePrice;
+        }
+        for (int i = 0; i <accountChildren ; i++) {
+            price+= mnoznik * basePrice * 0.75;
+        }
+
+        return  price;
     }
 
-    public Boolean checkHasPlace(String flightClass, Integer numberOfAdults, Integer numberOfChildren){
 
-        if (tickets.isEmpty()) return false;
-        List<Ticket> ticketsByFlightClassAdults = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        List<Ticket> ticketsByFlightClassChildren = this.tickets.stream().filter(ticket -> ticket.getFlight_class().equals(flightClass )&& ticket.getIsAdult()).collect(Collectors.toList());
-        return ticketsByFlightClassAdults.size() >= numberOfAdults && ticketsByFlightClassChildren.size() >= numberOfChildren;
-    }
 
-    public Flight(String code, String carrier, City cityFrom, City cityTo, LocalDateTime start, LocalDateTime end, Integer total_seat_number) {
-        this.code = code;
-        this.carrier = carrier;
-        this.duration = Math.toIntExact(ChronoUnit.MINUTES.between(start, end));
-        this.cityFrom = cityFrom;
-        this.cityTo = cityTo;
-        this.start = start;
-        this.end = end;
-        this.total_seat_number = total_seat_number;
-        this.avaiable_seats = total_seat_number;
-    }
+    public Boolean checkHasPlace(String flightClass, Integer accountChildren, Integer accountAdults){
+        int account = accountChildren + accountAdults;
+        Boolean response = false;
+        switch (flightClass){
+            case "economy":
+                if (avaiableSeatsEconomy>=account) {
+                response = true; }
+                break;
 
-    public Flight(String code, String carrier, City cityFrom, City cityTo, LocalDateTime start, LocalDateTime end, Integer total_seat_number,Integer distance,List<Ticket> tickets) {
-        this.code = code;
-        this.carrier = carrier;
-        this.duration = Math.toIntExact(ChronoUnit.MINUTES.between(start, end));
-        this.cityFrom = cityFrom;
-        this.cityTo = cityTo;
-        this.start = start;
-        this.end = end;
-        this.total_seat_number = total_seat_number;
-        this.avaiable_seats = total_seat_number;
-        this.distance=distance;
-        this.tickets=tickets;
+            case "premium economy":if (avaiableSeatsPremiumEconomy>=account){
+                response = true;}
+                break;
+
+            case "business class": if (avaiableSeatsBussinesClass>=account){
+                response = true;}
+                break;
+
+            case "first class":if (avaiableSeatsFirstClass>=account){
+                response = true;}
+                break;
+
+            default:
+            }
+            return  response;
+        }
+
+        public void deleteTickets(String flightClass, Integer account){
+
+            switch (flightClass) {
+                case "economy": this.avaiableSeatsEconomy +=account;break;
+                case "premium economy":this.avaiableSeatsPremiumEconomy +=account;break;
+                case "business class": this.avaiableSeatsBussinesClass +=account;break;
+                case "first class": this.avaiableSeatsFirstClass +=account;break;
+                default: break;
+            }
+
+        }
+
+
+
+
+
+    @Override
+    public int compareTo(Flight o) {
+        return this.getStart().compareTo(o.getStart());
     }
 }

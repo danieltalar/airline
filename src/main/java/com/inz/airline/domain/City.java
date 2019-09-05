@@ -14,7 +14,6 @@ import java.util.List;
 @NodeEntity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class City {
 
     @Id

@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,54 +24,45 @@ public class JourneyServiceImpl implements JourneyService {
     @Autowired
     FlightRepository flightRepository;
 
-    //TODO - CONVERT TO FORM WHERE JOURNEY IS RETURNED
+
     @Override
     public List<Journey> getJourney(SearchFlightDto searchFlightDto) {
-        List<JourneyData> listOfFlightCodes = journeyRepository.findListOfJourneys(searchFlightDto.getCityFrom(), searchFlightDto.getCityTo());
+
+        List<JourneyData> listOfFlightCodes = journeyRepository.findListOfJourneys(searchFlightDto.getCityFrom(), searchFlightDto.getCityTo());;
         List<Journey> listFiltered = new ArrayList<>();
         for (JourneyData journeyData: listOfFlightCodes){
             List<Flight> flights = new ArrayList<>();
             journeyData.getFlight_codes().forEach(code -> flights.add(flightRepository.getByCode(code)));
-//            AtomicReference<Integer> price= new AtomicReference<>(0);
-//            flights.forEach(flight -> price+= flight.ge);
             Journey journey = new Journey();
 
             journey.setFlights(flights);
             journey.setCityTo(searchFlightDto.getCityTo());
             journey.setCityFrom(searchFlightDto.getCityFrom());
             int sizeBefore = journey.getFlights().size();
-            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.checkHasPlace(searchFlightDto.getTicketType(), searchFlightDto.getCountAdult(), searchFlightDto.getCountChildren())).collect(Collectors.toList());
+            System.out.println(searchFlightDto);
+            List<Flight> collect = journey.getFlights().stream().filter(flight -> flight.checkHasPlace(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())).collect(Collectors.toList());
+
             int sizeAfter = collect.size();
             if (sizeBefore==sizeAfter) {
-
+                Collections.sort(journey.getFlights());
+                journey.setJourney_start(journey.getFlights().get(0).getStart());
+                journey.setJourney_finish(journey.getFlights().get(journey.getFlights().size()-1).getEnd());
+                AtomicReference<Double> price = new AtomicReference<>((double) 0);
+                 journey.getFlights().forEach(flight -> price.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())))));
+                 journey.setPriceJourney(price.get());
                 listFiltered.add(journey);
+                if(journey.getJourney_start().isBefore(searchFlightDto.getDataStartSearch())){
+                    listFiltered.remove(journey);
+                }
             }
-
-            int suma = 0;
-            for (Journey journey1 : listFiltered) {
-                journey1.getPrice();
-            }
-//            listFiltered.forEach( journey1 -> journey1.getFlights().forEach(flight -> flight.getTickets().));
 
         }
-
-            // AtomicReference<Integer> pr= new AtomicReference<>(0);
-////            List<Flight> collect = journeyData.getFlights().stream()
-////                    .filter(j -> j.getPrice() > searchFlightDto.getPriceMin())
-////                    .filter(j -> j.getPrice() < searchFlightDto.getPriceMax())
-////                    .filter(j -> j.getStart().isAfter(searchFlightDto.getDataStartSearch()))
-////                    .filter(j -> j.getStart().isBefore(searchFlightDto.getDataEndSearch()))
-////                    .collect(Collectors.toList());
-////            listFiltered.add(journeyData);
-//
-//
-//         }
-//
-//        List<JourneyData> collect = listOfJourneys.stream()
-//                .collect(Collectors.toList());
-//
-//         return collect;
         return listFiltered;
 
+    }
+
+    @Override
+    public Journey addJourney(Journey journey) {
+        return journeyRepository.save(journey);
     }
 }

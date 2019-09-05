@@ -1,13 +1,7 @@
 package com.inz.airline;
 
-import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
-import com.inz.airline.domain.JourneyData;
-import com.inz.airline.domain.Ticket;
-import com.inz.airline.repository.CityRepository;
-import com.inz.airline.repository.FlightRepository;
-import com.inz.airline.repository.JourneyRepository;
-import com.inz.airline.repository.TicketRepository;
+import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,8 +10,6 @@ import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @SpringBootApplication
@@ -30,28 +22,34 @@ public class AirlineApplication {
     }
 
 
-
     @Bean
     CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
-                           TicketRepository ticketRepository) {
+                           TicketRepository ticketRepository, AuthorityRepository authorityRepository, UserRepository userRepository, BookingRepository bookingRepository, PassengerRepository passengerRepository) {
         return args -> {
-            ticketRepository.deleteAll();
-            cityRepository.deleteAll();
-            cityRepository.save(new City("London","England"));
-            cityRepository.save(new City("Kacper","Poland"));
-            cityRepository.save(new City("Berlin","Germany"));
-            cityRepository.save(new City("Toronto","Canada"));
-            cityRepository.save(new City("Roma","Italy"));
-            cityRepository.save(new City("Sydney","Australia"));
-            cityRepository.save(new City("Istanbul","Turkey"));
-            cityRepository.save(new City("Singapore","Singapore"));
-            cityRepository.save(new City("Mumbai","India"));
-            cityRepository.save(new City("Madrid","Spain"));
-            cityRepository.save(new City("Athens","Greece"));
-            cityRepository.save(new City("Paris","France"));
-            cityRepository.save(new City("Los Angeles","United States of America"));
-            cityRepository.save(new City("New York","United States of America"));
-            cityRepository.save(new City("Chicago","United States of America"));
+//            authorityRepository.deleteAll();
+//            authorityRepository.save(new Authority("ROLE_USER"));
+//            authorityRepository.save(new Authority("ROLE_ADMIN"));
+//            userRepository.deleteAll();
+            bookingRepository.deleteAll();
+            passengerRepository.deleteAll();
+       //     journeyRepository.deleteAll();
+       //     ticketRepository.deleteAll();
+//            cityRepository.deleteAll();
+//            cityRepository.save(new City("London","England"));
+//            cityRepository.save(new City("Kacper","Poland"));
+//            cityRepository.save(new City("Berlin","Germany"));
+//            cityRepository.save(new City("Toronto","Canada"));
+//            cityRepository.save(new City("Roma","Italy"));
+//            cityRepository.save(new City("Sydney","Australia"));
+//            cityRepository.save(new City("Istanbul","Turkey"));
+//            cityRepository.save(new City("Singapore","Singapore"));
+//            cityRepository.save(new City("Mumbai","India"));
+//            cityRepository.save(new City("Madrid","Spain"));
+//            cityRepository.save(new City("Athens","Greece"));
+//            cityRepository.save(new City("Paris","France"));
+//            cityRepository.save(new City("Los Angeles","United States of America"));
+//            cityRepository.save(new City("New York","United States of America"));
+//            cityRepository.save(new City("Chicago","United States of America"));
        //     cityRepository.findAll().forEach(w->System.out.println(w.getName()));
             flightRepository.deleteAll();
             LocalDateTime dateTime = LocalDateTime.of(2019, Month.MARCH, 1, 20, 1);
@@ -59,31 +57,17 @@ public class AirlineApplication {
             LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
             LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
 
+            flightRepository.save(Flight.builder().code("AA9").carrier("American Airlines").cityFrom(cityRepository.getByName("New York")).cityTo(cityRepository.getByName("Los Angeles")).start(dateTime).end(dateTime2).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+           flightRepository.save( Flight.builder().code("AA10").carrier("American Airlines").cityFrom(cityRepository.getByName("Madrid")).cityTo(cityRepository.getByName("Roma")).start(dateTime2).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+           flightRepository.save(Flight.builder().code("AA11").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime3).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(200)).build());
+           flightRepository.save(Flight.builder().code("AA12").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime2).end(dateTime3).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
 
-            List<Ticket> tickets = new ArrayList<>();
+            ticketRepository.deleteAll();
 
-            Ticket t1= new Ticket( "premium economy","AA9", true,5.0);
-            Ticket t2 = new Ticket( "economy","AA9", false,5.0);
-            Ticket t3 = new Ticket( "business class","AA9", true,5.0);
-            Ticket t4 = new Ticket( "first class","AA9", true,5.0);
-             tickets.add(t1);
-             tickets.add(t2);
-             tickets.add(t3);
-             tickets.add(t4);
-
-
-            flightRepository.save(new Flight( "AA9", "American Airlines", cityRepository.getByName("New York"), cityRepository.getByName("Los Angeles"), dateTime,dateTime2,500,100, tickets));
-
-
-
-           flightRepository.save(new Flight( "AA10", "American Airlines",  cityRepository.getByName("Kacper"),cityRepository.getByName("Roma"), dateTime2,dateTime4,20));
-           flightRepository.save(new Flight( "AA11", "American Airlines", cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime3,dateTime4,400));
-           flightRepository.save(new Flight( "AA12", "American Airlines",  cityRepository.getByName("Los Angeles"),cityRepository.getByName("Istanbul"), dateTime2,dateTime3,199));
-
-            List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
+            //   List<JourneyData> listOfJourneys = journeyRepository.findListOfJourneys("New York", "Istanbul");
 
 //            flightRepository.findAll().forEach(f->System.out.println(f.toString()));
-            listOfJourneys.forEach(l-> System.out.println(l.getFlight_codes()));
+  //          listOfJourneys.forEach(l-> System.out.println(l.getFlight_codes()));
 
 
             //    flyingFromRepository.save(new FlyingFrom(cityRepository.getByName("New York"), flightRepository.findById("AA9").get()));

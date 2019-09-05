@@ -8,4 +8,5 @@ import java.util.List;
 public interface JourneyService {
 
     List<Journey> getJourney(SearchFlightDto searchFlightDto);
+    Journey addJourney(Journey journey);
 }
