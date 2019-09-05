@@ -9,6 +9,7 @@ public class SearchFlightDto {
 
     private Integer priceMax = 99999999;
     private Integer priceMin = 0;
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDateTime dataStartSearch = LocalDateTime.MIN;
     private String cityTo;
     private String cityFrom;
