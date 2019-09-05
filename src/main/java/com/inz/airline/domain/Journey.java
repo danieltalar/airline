@@ -25,7 +25,7 @@ public class Journey {
     private LocalDateTime journey_start;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime journey_finish;
-    private String cityFrom;
+    private String cityFromJourney;
     private String cityTo;
     private Double priceJourney;
     private Double priceForChildren;
