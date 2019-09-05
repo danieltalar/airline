@@ -10,6 +10,8 @@ import com.inz.airline.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,8 +50,20 @@ public class JourneyServiceImpl implements JourneyService {
                 journey.setJourney_start(journey.getFlights().get(0).getStart());
                 journey.setJourney_finish(journey.getFlights().get(journey.getFlights().size()-1).getEnd());
                 AtomicReference<Double> price = new AtomicReference<>((double) 0);
-                 journey.getFlights().forEach(flight -> price.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), searchFlightDto.getCountAdult())))));
-                 journey.setPriceJourney(price.get());
+                AtomicReference<Double> priceForChildren = new AtomicReference<>((double) 0);
+                AtomicReference<Double> priceForAdults = new AtomicReference<>((double) 0);
+                 journey.getFlights().forEach(flight -> priceForChildren.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), searchFlightDto.getCountChildren(), 0)))));
+                 journey.getFlights().forEach(flight -> priceForAdults.updateAndGet(v -> new Double((double) (v + flight.takePrice(searchFlightDto.getTicketType(), 0, searchFlightDto.getCountAdult())))));
+                 journey.setPriceForChildren(priceForChildren.get());
+                 journey.setPriceForAdults(priceForAdults.get());
+                journey.setPriceJourney(priceForChildren.get()+priceForAdults.get());
+                journey.setDuration(ChronoUnit.MINUTES.between(journey.getJourney_start(), journey.getJourney_finish()));
+
+                journey.getFlights().forEach(flight -> {
+                    long minutes=0;
+                     minutes= ChronoUnit.MINUTES.between(flight.getStart(), flight.getEnd());
+                     flight.setDuration(minutes);
+                });
                 listFiltered.add(journey);
                 if(journey.getJourney_start().isBefore(searchFlightDto.getDataStartSearch())){
                     listFiltered.remove(journey);

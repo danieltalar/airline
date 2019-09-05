@@ -28,8 +28,10 @@ public class Journey {
     private String cityFrom;
     private String cityTo;
     private Double priceJourney;
+    private Double priceForChildren;
+    private Double priceForAdults;
     private Integer interchangeAccount;
-
+    private Long duration;
     @Relationship(type = "BY_FLIGHT", direction = Relationship.OUTGOING)
     private List<Flight> flights;
 

@@ -32,8 +32,7 @@ public class Flight implements Comparable<Flight> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime end;
     private Double basePrice;
-    private Integer distance;
-
+    private Long duration;
 
     @Relationship(type = "FLYING_FROM", direction = Relationship.INCOMING)
     private City cityFrom;
