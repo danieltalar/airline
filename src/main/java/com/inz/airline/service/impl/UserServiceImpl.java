@@ -6,8 +6,6 @@ import com.inz.airline.repository.UserRepository;
 import com.inz.airline.service.AuthorityService;
 import com.inz.airline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,13 +28,6 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private AuthorityService authService;
 
-  public void resetCredentials() {
-    List<User> users = (List<User>) userRepository.findAll();
-    for (User user : users) {
-      user.setPassword(passwordEncoder.encode("123"));
-      userRepository.save(user);
-    }
-  }
 
   @Override
   // @PreAuthorize("hasRole('USER')")
@@ -45,17 +36,7 @@ public class UserServiceImpl implements UserService {
     return u;
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  public User findById(Long id) throws AccessDeniedException {
-    User u = userRepository.findById(id).get();
-    return u;
-  }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  public List<User> findAll() throws AccessDeniedException {
-    List<User> result = (List<User>) userRepository.findAll();
-    return result;
-  }
 
   @Override
   public User save(UserRequest userRequest) {
@@ -65,7 +46,6 @@ public class UserServiceImpl implements UserService {
     user.setFirst_name(userRequest.getFirstname());
     user.setLast_name(userRequest.getLastname());
     user.setNationallity(userRequest.getNationality());
-    user.setEmail(userRequest.getEmail());
     user.setDateOfBirth(userRequest.getDateOfBirth());
 
     List<com.inz.airline.model.Authority> auth = authService.findByname("ROLE_USER");
