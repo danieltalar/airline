@@ -22,7 +22,6 @@ public class Booking {
     private LocalDate booking_date;
     private String owner;
 
-    //mozna zrobic rezerwacje na jedna podroz skladajaca sie z n lotow (n>=1)
     @Relationship(type = "HAS_JOURNEY", direction = Relationship.OUTGOING)
     private Journey journey;
 

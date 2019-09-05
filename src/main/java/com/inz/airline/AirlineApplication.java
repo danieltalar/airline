@@ -1,5 +1,6 @@
 package com.inz.airline;
 
+import com.inz.airline.domain.City;
 import com.inz.airline.domain.Flight;
 import com.inz.airline.repository.*;
 import org.springframework.boot.CommandLineRunner;
@@ -32,35 +33,35 @@ public class AirlineApplication {
 //            userRepository.deleteAll();
             bookingRepository.deleteAll();
             passengerRepository.deleteAll();
-       //     journeyRepository.deleteAll();
-       //     ticketRepository.deleteAll();
-//            cityRepository.deleteAll();
-//            cityRepository.save(new City("London","England"));
-//            cityRepository.save(new City("Kacper","Poland"));
-//            cityRepository.save(new City("Berlin","Germany"));
-//            cityRepository.save(new City("Toronto","Canada"));
-//            cityRepository.save(new City("Roma","Italy"));
-//            cityRepository.save(new City("Sydney","Australia"));
-//            cityRepository.save(new City("Istanbul","Turkey"));
-//            cityRepository.save(new City("Singapore","Singapore"));
-//            cityRepository.save(new City("Mumbai","India"));
-//            cityRepository.save(new City("Madrid","Spain"));
-//            cityRepository.save(new City("Athens","Greece"));
-//            cityRepository.save(new City("Paris","France"));
-//            cityRepository.save(new City("Los Angeles","United States of America"));
-//            cityRepository.save(new City("New York","United States of America"));
-//            cityRepository.save(new City("Chicago","United States of America"));
-       //     cityRepository.findAll().forEach(w->System.out.println(w.getName()));
+            journeyRepository.deleteAll();
+            ticketRepository.deleteAll();
+            cityRepository.deleteAll();
+            cityRepository.save(new City("London","England"));
+            cityRepository.save(new City("Kacper","Poland"));
+            cityRepository.save(new City("Berlin","Germany"));
+            cityRepository.save(new City("Toronto","Canada"));
+            cityRepository.save(new City("Roma","Italy"));
+            cityRepository.save(new City("Sydney","Australia"));
+            cityRepository.save(new City("Istanbul","Turkey"));
+            cityRepository.save(new City("Singapore","Singapore"));
+            cityRepository.save(new City("Mumbai","India"));
+            cityRepository.save(new City("Madrid","Spain"));
+            cityRepository.save(new City("Athens","Greece"));
+            cityRepository.save(new City("Paris","France"));
+            cityRepository.save(new City("Los Angeles","United States of America"));
+            cityRepository.save(new City("New York","United States of America"));
+            cityRepository.save(new City("Chicago","United States of America"));
+            cityRepository.findAll().forEach(w->System.out.println(w.getName()));
             flightRepository.deleteAll();
             LocalDateTime dateTime = LocalDateTime.of(2019, Month.MARCH, 1, 20, 1);
             LocalDateTime dateTime2 = LocalDateTime.of(2019, Month.MARCH, 2, 2, 1);
             LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
             LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
 
-            flightRepository.save(Flight.builder().code("AA9").carrier("American Airlines").cityFrom(cityRepository.getByName("New York")).cityTo(cityRepository.getByName("Los Angeles")).start(dateTime).end(dateTime2).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
-           flightRepository.save( Flight.builder().code("AA10").carrier("American Airlines").cityFrom(cityRepository.getByName("Madrid")).cityTo(cityRepository.getByName("Roma")).start(dateTime2).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
-           flightRepository.save(Flight.builder().code("AA11").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime3).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(200)).build());
-           flightRepository.save(Flight.builder().code("AA12").carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime2).end(dateTime3).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+            flightRepository.save(Flight.builder().code("AA9").distance(50).carrier("American Airlines").cityFrom(cityRepository.getByName("New York")).cityTo(cityRepository.getByName("Los Angeles")).start(dateTime).end(dateTime2).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+           flightRepository.save( Flight.builder().code("AA10").distance(100).carrier("American Airlines").cityFrom(cityRepository.getByName("Madrid")).cityTo(cityRepository.getByName("Roma")).start(dateTime2).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
+           flightRepository.save(Flight.builder().code("AA11").distance(123).carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime3).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(200)).build());
+           flightRepository.save(Flight.builder().code("AA12").distance(112).carrier("American Airlines").cityFrom(cityRepository.getByName("Los Angeles")).cityTo(cityRepository.getByName("Istanbul")).start(dateTime2).end(dateTime3).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
 
             ticketRepository.deleteAll();
 
