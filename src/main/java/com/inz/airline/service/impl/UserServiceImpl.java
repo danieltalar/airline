@@ -12,10 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by fan.jin on 2016-10-15.
- */
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -47,6 +43,7 @@ public class UserServiceImpl implements UserService {
     user.setLast_name(userRequest.getLastname());
     user.setNationality(userRequest.getNationality());
     user.setDateOfBirth(userRequest.getDateOfBirth());
+    user.setEmail(userRequest.getEmail());
 
     List<com.inz.airline.model.Authority> auth = authService.findByname("ROLE_USER");
     user.setAuthorities(auth);

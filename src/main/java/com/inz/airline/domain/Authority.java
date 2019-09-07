@@ -8,9 +8,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.security.core.GrantedAuthority;
 
 
-/**
- * Created by fan.jin on 2016-11-03.
- */
+
 
 @NodeEntity
 @NoArgsConstructor

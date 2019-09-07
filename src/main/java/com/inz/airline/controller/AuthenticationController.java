@@ -17,9 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by fan.jin on 2017-05-10.
- */
 
 @CrossOrigin
 @RestController
