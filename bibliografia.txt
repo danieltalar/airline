@@ -1,0 +1,5 @@
+Bibliografia
+[LAL 2015] Lal Mahesh, Neo4j Graph Data Modeling, 2015.
+[FREE 2018] Freeman Adam, Angular. Profesjonalne techniki programowania, 2018.
+[WALL 2015] Walls Craig, Spring w Akcji. Wydanie IV, 2015.
+[HORS 2017] Horstmann Cay S., Java. Techniki zaawansowane. Wydanie X, 2017.
