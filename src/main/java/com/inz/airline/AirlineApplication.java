@@ -27,10 +27,10 @@ public class AirlineApplication {
     CommandLineRunner demo(CityRepository cityRepository, FlightRepository flightRepository, JourneyRepository journeyRepository,
                            TicketRepository ticketRepository, AuthorityRepository authorityRepository, UserRepository userRepository, BookingRepository bookingRepository, PassengerRepository passengerRepository) {
         return args -> {
-//            authorityRepository.deleteAll();
-//            authorityRepository.save(new Authority("ROLE_USER"));
-//            authorityRepository.save(new Authority("ROLE_ADMIN"));
-//            userRepository.deleteAll();
+            authorityRepository.deleteAll();
+            authorityRepository.save(new com.inz.airline.model.Authority("ROLE_USER"));
+            authorityRepository.save(new com.inz.airline.model.Authority("ROLE_ADMIN"));
+            userRepository.deleteAll();
             bookingRepository.deleteAll();
             passengerRepository.deleteAll();
             journeyRepository.deleteAll();
@@ -56,7 +56,7 @@ public class AirlineApplication {
             LocalDateTime dateTime = LocalDateTime.of(2019, Month.MARCH, 1, 20, 1);
             LocalDateTime dateTime2 = LocalDateTime.of(2019, Month.MARCH, 2, 2, 1);
             LocalDateTime dateTime3 = LocalDateTime.of(2019, Month.MARCH, 2, 12, 1);
-            LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 3, 20, 1);
+            LocalDateTime dateTime4 = LocalDateTime.of(2019, Month.MARCH, 2, 20, 1);
 
             flightRepository.save(Flight.builder().code("AA9").carrier("American Airlines").cityFrom(cityRepository.getByName("New York")).cityTo(cityRepository.getByName("Los Angeles")).start(dateTime).end(dateTime2).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(300)).build());
            flightRepository.save( Flight.builder().code("AA10").carrier("American Airlines").cityFrom(cityRepository.getByName("Madrid")).cityTo(cityRepository.getByName("Roma")).start(dateTime2).end(dateTime4).avaiableSeatsBussinesClass(20).avaiableSeatsEconomy(30).avaiableSeatsFirstClass(10).avaiableSeatsPremiumEconomy(10).basePrice(Double.valueOf(200)).build());
